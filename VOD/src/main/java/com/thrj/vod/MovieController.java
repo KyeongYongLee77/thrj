@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thrj.Entity.Comments;
-import com.thrj.Entity.History;
-import com.thrj.Entity.Members;
 import com.thrj.Entity.Movies;
 import com.thrj.Entity.Paging;
 import com.thrj.Mapper.CommentsMapper;
@@ -35,22 +32,27 @@ public class MovieController {
 	@Autowired
 	public CommentsMapper cmt_mapper;
 	
-	@RequestMapping(value={"/index.do","/"}, method=RequestMethod.GET)
-	public String index(Model model, HttpServletRequest request) {
+	@GetMapping(value={"/index.do","/"})
+	public String index(Model model) {
 		List<Movies> list = mapper.movieList();
 		model.addAttribute("list",list);
 		
 		List<Movies> list_1 = mapper.bannerList();
-	    model.addAttribute("list_1",list_1);
-	    
-	    HttpSession session = request.getSession();
-		String mb_id=(String)session.getAttribute("mb_id");
-	      
-	    List<History> history_seq = mapper.historySeq(mb_id);
-	    model.addAttribute("history_seq",history_seq);
-	    
+	      model.addAttribute("list_1",list_1);
 		return "index";
 	}
+	
+	//상세페이지 사이드바 장르별 리스트 
+//	@GetMapping(value="/genreList.do")
+//	public String genreList(Movies vo, Model model) {
+//		
+//		List<Movies> list_genre = mapper.movieGenreList();
+//		model.addAttribute("list_genre",list_genre);
+//		
+//		return "redirect:/animeDetails.do?movie_seq="+vo.getMovie_seq();
+//		
+//	}
+	
 	@RequestMapping(value="/animeDetails.do", method=RequestMethod.GET)
 	public ModelAndView animeDetails(HttpServletRequest request, Model model) {
 		
@@ -75,17 +77,15 @@ public class MovieController {
 		return mv;
 	}
 	
-	@GetMapping("/NeTupidiaRanking.do")
-	public String animeWatching(Model model) {
-		List<Movies> list = mapper.movieList();
-		model.addAttribute("list",list);
+	@GetMapping("/animeWatching.do")
+	public String animeWatching() {
+		
 		return "anime-watching";
 	}
 	
-	@GetMapping("/NeTupidiaUpcoming.do")
-	public String blog(Model model) {
-		List<Movies> list = mapper.movieList();
-		model.addAttribute("list",list);
+	@GetMapping("/blog.do")
+	public String blog() {
+		
 		return "blog";
 	}
 	
@@ -122,4 +122,5 @@ public class MovieController {
 		return "redirect:/animeDetails.do?movie_seq="+vo.getMovie_seq();
 		
 	}
+	
 }

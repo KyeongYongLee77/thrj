@@ -12,6 +12,14 @@
     <!--List -->	
    	<select id="movieList" resultType="com.thrj.Entity.Movies">
 	    select * from movies
+	</select> 
+	
+   	    <!--Similar Genre List -->	
+   	<select id="movieGenreList" parameterType="com.thrj.Entity.Movies" resultType="com.thrj.Entity.Movies">
+	    select * from movies
+	    where movie_type like concat('%', #{movie_type}, '%')
+	    and movie_seq != #{movie_seq}
+	
 	</select>
 	
    	<!-- 배너 -->
@@ -56,13 +64,7 @@
 	    update movies
 	    set movie_participate = movie_participate + 1, movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
 	    where movie_seq = #{movie_seq}
-	</update>
-	
-	<!-- ${sessionScope.mb_id} -->
-	<select id="historySeq" parameterType="com.thrj.Entity.Members" resultType="com.thrj.Entity.Movies">
-	    select * from movies
-		where movie_seq=(select movie_seq from history where mb_id=#{sessionScope.mb_id} order by history_date desc)
-	</select>
-	
+	    
+	</update> 
 	
 </mapper>

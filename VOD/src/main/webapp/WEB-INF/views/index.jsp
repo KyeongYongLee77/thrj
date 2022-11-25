@@ -83,6 +83,7 @@
                         
                         <c:forEach items="${list_1}" var="movies" varStatus="i" begin="3" end="5" step="1">
                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">
                                       <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
                                           <div class="comment"><i class="fa fa-comments"></i> 11</div>
@@ -95,6 +96,7 @@
                                            <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
                                        </div>
                                    </div>
+                               </div>
                                </div>
                             </c:forEach>
                             
@@ -116,6 +118,7 @@
                         <div class="row">
                     <c:forEach items="${list}" var="movies" varStatus="i" begin="0" end="2" step="1">
                                <div class="col-lg-4 col-md-6 col-sm-6">
+                               <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">
                                        <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
                                            <div class="comment"><i class="fa fa-comments"></i> 11</div>
@@ -127,6 +130,7 @@
                                            </ul>
                                            <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
                                        </div>
+                                   </div>
                                    </div>
                                </div>
                             </c:forEach>
@@ -147,12 +151,12 @@
 	                        </div>
                         </div>
                       </c:forEach>
-    </div>
-</div>
-</div>
-</div>
-</div>
-</section>
+				    </div>
+				</div>
+				</div>
+				</div>
+				</div>
+				</section>
 <!-- Product Section End -->
 
 <!-- footer section -->

@@ -64,13 +64,7 @@
 	    update movies
 	    set movie_participate = movie_participate + 1, movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
 	    where movie_seq = #{movie_seq}
-	</update>
-	
-	<!-- ${sessionScope.mb_id} -->
-	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
-	    select * from movies
-		where movie_seq=(select movie_seq from history where mb_id=#{mb_id} order by history_date desc)
-	</select>
-	
+	    
+	</update> 
 	
 </mapper>

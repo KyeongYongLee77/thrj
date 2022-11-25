@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.thrj.Entity.History;
 import com.thrj.Entity.Members;
 import com.thrj.Entity.Movies;
 import com.thrj.Entity.Paging;
@@ -26,6 +25,5 @@ public interface MovieMapper {
 	public List<Paging> getPageList(Paging paging);
 	public void updateStarRating(Movies vo); // 유저 별점 남기기 
 	public List<Movies> movieGenreList(Movies vo); // 상세페이지 장르별 유사 영화 추천 
-	public List<History> historySeq(String mb_id);
 	
 }

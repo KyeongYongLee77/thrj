@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
-                    <div class="header__logo" style="width:200px">
+                    <div class="header__logo" style="width:250px">
                         <a href="index.do">
                             <img src="resources/img/logo.png" alt="">
                         </a>
@@ -16,14 +16,16 @@
                         <nav class="header__menu mobile-menu">
                             <ul>
                                 <li class="active"><a href="index.do">Home</a></li>
-                                <li><a href="categories.do">영화 </a></li>
-                                   <li><a href="#">장르 <span class="arrow_carrot-down"></span></a>
+                                   <li><a href="categories.do">영화 <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="#">액션</a></li>
-                                        <li><a href="#">애니메이션</a></li>
-                                        <li><a href="#">코미디</a></li>
+                                        <li><a href="#">다큐멘터리</a></li>
+                                        <li><a href="#">드라마</a></li>
                                         <li><a href="#">로맨스</a></li>
                                         <li><a href="#">스릴러</a></li>
+                                        <li><a href="#">SF</a></li>
+                                        <li><a href="#">애니메이션</a></li>
+                                        <li><a href="#">액션</a></li>
+                                        <li><a href="#">코미디</a></li>
                                         <li><a href="#">판타지</a></li>
                                     </ul>
                                 </li>
