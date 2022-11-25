@@ -81,7 +81,7 @@
                         </div>
                         <div class="row">
                         
-                        <c:forEach items="${list1}" var="movies" varStatus="i" begin="3" end="5" step="1">
+                        <c:forEach items="${list1}" var="movies">
                                <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">
@@ -142,7 +142,7 @@
                         <div class="product__sidebar__view">
                             <div class="section-title">
                                 <h5>시청목록</h5></div>
-                       <c:forEach items="${history_seq}" var="movies" varStatus="i" begin="0" end="4" step="1">
+                       <c:forEach items="${history_seq}" var="movies">
 	                      	<div class="filter__gallery">
 		                        <div class="product__sidebar__view__item set-bg"
 		                        data-setbg="${imgUrl}/${movies.movie_img}.png">

@@ -89,7 +89,7 @@ public class MovieController {
 		return "anime-watching";
 	}
 	
-	@GetMapping("/blog.do")
+	@GetMapping("/NeTupidiaUpcoming.do")
 	public String blog(Model model) {
 		List<Movies> list = mapper.movieList();
 		model.addAttribute("list",list);

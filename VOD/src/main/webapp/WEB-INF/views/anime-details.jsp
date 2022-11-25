@@ -210,7 +210,7 @@
                             <div class="section-title">
                                 <h5>you might like...</h5>
                             </div>
-                            <c:forEach items="${list_genre}" var="movies" varStatus="i" begin="0" end="3" step="1">
+                            <c:forEach items="${list_genre}" var="movies">
                             <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
                                  <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
                             </div>

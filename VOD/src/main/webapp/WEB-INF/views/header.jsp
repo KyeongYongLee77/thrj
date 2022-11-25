@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var ="context"><%=request.getContextPath()%></c:set>
+
  <!-- Header Section Begin -->
     <header class="header">
         <div class="container">
@@ -29,19 +30,19 @@
                                         <li><a href="#">판타지</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="${context}/NeTupidiaRanking.do">랭킹</a></li>
-                                <li><a href="${context}/NeTupidiaUpcoming.do">상영예정작</a></li>
+                                <li><a href="NeTupidiaRanking.do">랭킹</a></li>
+                                <li><a href="NeTupidiaUpcoming.do">상영예정작</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    	<a href="#" class="search-switch"><span class="icon_search"></span></a>
                         	<c:choose>
 								<c:when test = "${sessionScope.mb_id != null}">	
-                                    <a href="${context}/myinfoMember.do"><span class="icon_profile"></span></a>
-                                    <a href="${context}/logout.do"><span class="icon_close"></span></a>	
+                                    <a href="myinfoMember.do"><span class="icon_profile"></span></a>
+                                    <a href="logout.do"><span class="icon_close"></span></a>	
                                 </c:when>
                                 <c:otherwise>
                                      <a href="login.do"><span class="icon_profile"></span></a>
