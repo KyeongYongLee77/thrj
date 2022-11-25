@@ -135,10 +135,9 @@
                                             <li><span>영화 개봉날짜:</span> ${fn:substring(movie.movie_open_date,0,10)}&nbsp;&nbsp;개봉</li>
                                             <li><span>영화 러닝타임:</span>${movie.movie_runtime}</li>
                                             <li><span>영화 출연배우:</span>${movie.movie_actor}</li>
-                                            <li><span>영화 제작 국가:</span>${movie.movie_country}</li>
                                             <%-- <li><span>영화 등급:</span>${movie.movie_age}</li> --%>
-                                            <li><span>영화 평점:
-                                </span></li>
+                                            <li><span>영화 제작 국가:</span>${movie.movie_country}</li>
+                                            <li><span>영화 평점:</span>${movie.movie_rating}&nbsp; 점</li>
                                         </ul>
                                     </div>
                                 </div>
