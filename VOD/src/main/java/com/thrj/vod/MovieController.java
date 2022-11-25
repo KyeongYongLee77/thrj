@@ -2,8 +2,8 @@ package com.thrj.vod;
 
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.thrj.Entity.Comments;
+import com.thrj.Entity.History;
 import com.thrj.Entity.Movies;
 import com.thrj.Entity.Paging;
 import com.thrj.Mapper.CommentsMapper;
@@ -32,13 +32,15 @@ public class MovieController {
 	@Autowired
 	public CommentsMapper cmt_mapper;
 	
-	@GetMapping(value={"/index.do","/"})
-	public String index(Model model) {
-		List<Movies> list = mapper.movieList();
+	@RequestMapping(value={"/index.do","/"}, method=RequestMethod.GET)
+	public String index(Model model, HttpServletRequest request) {
+		List<Movies> list = mapper.bannerList();
 		model.addAttribute("list",list);
 		
-		List<Movies> list_1 = mapper.bannerList();
-	      model.addAttribute("list_1",list_1);
+		HttpSession session = request.getSession();
+		String mb_id=(String)session.getAttribute("mb_id");
+		List<History> history_seq = mapper.historySeq(mb_id);
+		model.addAttribute("history_seq",history_seq);
 		return "index";
 	}
 	
@@ -77,15 +79,17 @@ public class MovieController {
 		return mv;
 	}
 	
-	@GetMapping("/animeWatching.do")
-	public String animeWatching() {
-		
+	@GetMapping("/NeTupidiaRanking.do")
+	public String animeWatching(Model model) {
+		List<Movies> list = mapper.movieList();
+		model.addAttribute("list",list);
 		return "anime-watching";
 	}
 	
 	@GetMapping("/blog.do")
-	public String blog() {
-		
+	public String blog(Model model) {
+		List<Movies> list = mapper.movieList();
+		model.addAttribute("list",list);
 		return "blog";
 	}
 	

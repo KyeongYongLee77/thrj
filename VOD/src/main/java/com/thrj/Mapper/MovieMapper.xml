@@ -36,6 +36,7 @@
 	
 	<!-- 배너 하나씩 추출할때 -->
    	<select id="bannerOne" resultType="com.thrj.Entity.Movies">
+   	   <![CDATA[
        select 
 	     movie_seq
 	     , movie_title
@@ -47,6 +48,7 @@
       from movies 
       order by movie_cnt desc
 	  limit 1
+	  		]]>
    </select>
 	
 	<!-- 페이징 -->
@@ -66,5 +68,20 @@
 	    where movie_seq = #{movie_seq}
 	    
 	</update> 
+	
+	
+	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
+	      <![CDATA[
+	    select 
+	          m.*
+	        from movies m,members u,history h
+           where m.movie_seq =h.movie_seq
+             and u.mb_id =h.mb_id
+             and h.mb_id = #{mb_id}
+           order by h.history_date  desc
+           LIMIT 4
+		]]>
+	</select>
+	
 	
 </mapper>
