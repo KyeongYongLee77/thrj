@@ -11,7 +11,7 @@
 	
     <!--List -->	
    	<select id="movieList" resultType="com.thrj.Entity.Movies">
-	    select * from movies
+	     select * from movies limit 0,3
 	</select> 
 	
    	    <!--Similar Genre List -->	

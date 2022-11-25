@@ -41,7 +41,7 @@
         <div class="container">
             <div class="hero__slider owl-carousel">
             
-               <c:forEach items="${list}" var="movies" varStatus="i" begin="0" end="2" step="1">
+            <c:forEach items="${list}" var="movies">
                <div class="hero__items set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
                     <div class="row">
                         <div class="col-lg-6">
@@ -81,7 +81,7 @@
                         </div>
                         <div class="row">
                         
-                        <c:forEach items="${list_1}" var="movies" varStatus="i" begin="3" end="5" step="1">
+                        <c:forEach items="${list1}" var="movies" varStatus="i" begin="3" end="5" step="1">
                                <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">

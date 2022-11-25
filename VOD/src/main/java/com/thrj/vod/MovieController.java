@@ -34,8 +34,11 @@ public class MovieController {
 	
 	@RequestMapping(value={"/index.do","/"}, method=RequestMethod.GET)
 	public String index(Model model, HttpServletRequest request) {
-		List<Movies> list = mapper.bannerList();
+		List<Movies> list = mapper.movieList();
 		model.addAttribute("list",list);
+		
+		List<Movies> list1 = mapper.bannerList();
+		model.addAttribute("list1",list1);
 		
 		HttpSession session = request.getSession();
 		String mb_id=(String)session.getAttribute("mb_id");
