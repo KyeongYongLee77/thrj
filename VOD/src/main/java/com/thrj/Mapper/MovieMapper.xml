@@ -28,30 +28,34 @@
 	<!--List -->
 	<select id="movieList" resultType="com.thrj.Entity.Movies">
    	    <![CDATA[
-	     select 
-	     	movie_seq
-	      , movie_title
-	      , movie_content
-	      , movie_img
-	      , movie_type
-	      , movie_open_date
-	      , movie_rating
-	      , movie_runtime
-	      , movie_actor
-	      , movie_country
-	      , admin_id
-	      , movie_director
-	      , movie_cnt
-	      , movie_participate
-	     from movies 
-	     limit 0,3
+	      select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , m.movie_img as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where c.movie_seq = m.movie_seq
+	     group by m.movie_seq,m.movie_title,m.movie_content
+	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
+	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
+	     ,m.movie_director,m.movie_cnt,m.movie_participate
+	     order by m.movie_seq
 	     ]]>
 	</select>
 
 	<!--Similar Genre List -->
-	<select id="movieGenreList"
-		parameterType="com.thrj.Entity.Movies"
-		resultType="com.thrj.Entity.Movies">
+	<select id="movieGenreList" parameterType="com.thrj.Entity.Movies" resultType="com.thrj.Entity.Movies">
    	 <![CDATA[   
 	    select 
 	      movie_seq
@@ -79,25 +83,29 @@
 	<!-- 배너 -->
 	<select id="bannerList" resultType="com.thrj.Entity.Movies">
    	 <![CDATA[
-        select 
-          movie_seq
-	      , movie_title
-	      , movie_content
-	      , movie_img
-	      , movie_type
-	      , movie_open_date
-	      , movie_rating
-	      , movie_runtime
-	      , movie_actor
-	      , movie_country
-	      , admin_id
-	      , movie_director
-	      , movie_cnt
-	      , movie_participate
-        from movies 
-		WHERE movie_cnt > 0
- 		order by movie_cnt desc 
- 		limit 0,3
+         select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , m.movie_img as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where c.movie_seq = m.movie_seq
+	     group by m.movie_seq,m.movie_title,m.movie_content
+	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
+	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
+	     ,m.movie_director,m.movie_cnt,m.movie_participate
+	     order by m.movie_participate desc
  	   ]]>
 	</select>
 
@@ -116,13 +124,8 @@
        select 
 	     movie_seq
 	     , movie_title
-	     , movie_type
 	     , movie_content
 	     , movie_img
-	     , movie_rating
-	     , movie_director
-	     , movie_country
-	     , movie_open_date 
       from movies 
       order by movie_cnt desc
 	  limit 1
@@ -143,8 +146,7 @@
 		#{firstRow},#{lastRow};
 	</select>
 
-	<update id="updateStarRating"
-		parameterType="com.thrj.Entity.Movies">
+	<update id="updateStarRating" parameterType="com.thrj.Entity.Movies">
 		update movies set
 		movie_participate = movie_participate + 1
 		, movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
@@ -153,21 +155,24 @@
 
 
 	<!-- 시청한 history  -->
-	<select id="historySeq" parameterType="string"
-		resultType="com.thrj.Entity.Movies">
+	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
 	      <![CDATA[
-	    select 
-	          m.*
+	    	select
+	    	DISTINCT
+	           m.movie_seq as movie_seq
+	         , m.movie_title as movie_title
+	         , m.movie_img as movie_img
 	        from movies m,members u,history h
-           where m.movie_seq = h.movie_seq
-             and u.mb_id = h.mb_id
+            where m.movie_seq = h.movie_seq
+            and u.mb_id = h.mb_id
           ]]>
 		<if test='mb_id != null and !"".equals(mb_id)'>
 			and h.mb_id = #{mb_id}
 		</if>
       <![CDATA[       
-           order by h.history_date  desc
-           LIMIT 5
+           group by  m.movie_seq, m.movie_title, m.movie_img
+           order by m.movie_seq desc
+           limit 5
 		]]>
 	</select>
 	
