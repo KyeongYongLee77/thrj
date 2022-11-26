@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thrj.Mapper.MovieMapper">
 
-    <!--번호로 넘겨받았을때 -->
-   	<select id="animeDetails" resultType="com.thrj.Entity.Movies" parameterType="int">
+	<!--번호로 넘겨받았을때 -->
+	<select id="animeDetails" resultType="com.thrj.Entity.Movies"
+		parameterType="int">
    	   	    <![CDATA[
 	    		select 
 	    			movie_seq
@@ -23,9 +24,9 @@
 	    		from movies where movie_seq = #{movie_seq}
 	    	]]>
 	</select>
-	
-    <!--List -->	
-   	<select id="movieList" resultType="com.thrj.Entity.Movies">
+
+	<!--List -->
+	<select id="movieList" resultType="com.thrj.Entity.Movies">
    	    <![CDATA[
 	     select 
 	     	movie_seq
@@ -42,12 +43,15 @@
 	      , movie_director
 	      , movie_cnt
 	      , movie_participate
-	     from movies limit 0,3
-	     ]]>	
-	</select> 
-	
-   	    <!--Similar Genre List -->	
-   	<select id="movieGenreList" parameterType="com.thrj.Entity.Movies" resultType="com.thrj.Entity.Movies">
+	     from movies 
+	     limit 0,3
+	     ]]>
+	</select>
+
+	<!--Similar Genre List -->
+	<select id="movieGenreList"
+		parameterType="com.thrj.Entity.Movies"
+		resultType="com.thrj.Entity.Movies">
    	 <![CDATA[   
 	    select 
 	      movie_seq
@@ -69,11 +73,11 @@
 	    and movie_seq != #{movie_seq}
 	    order by movie_seq desc
 	    LIMIT 0,4
- 	   ]]>	
+ 	   ]]>
 	</select>
-	
-   	<!-- 배너 -->
-   	<select id="bannerList" resultType="com.thrj.Entity.Movies">
+
+	<!-- 배너 -->
+	<select id="bannerList" resultType="com.thrj.Entity.Movies">
    	 <![CDATA[
         select 
           movie_seq
@@ -94,20 +98,20 @@
 		WHERE movie_cnt > 0
  		order by movie_cnt desc 
  		limit 0,3
- 	   ]]>	
-   </select>
-	
-   	<!-- 카운팅  -->
+ 	   ]]>
+	</select>
+
+	<!-- 카운팅 -->
 	<update id="raiseLookupCount" parameterType="int">
 	  <![CDATA[
         update movies 
         set movie_cnt = movie_cnt+1 
         where movie_seq = #{movie_seq}
-        ]]>	
+        ]]>
 	</update>
-	
+
 	<!-- 배너 하나씩 추출할때 -->
-   	<select id="bannerOne" resultType="com.thrj.Entity.Movies">
+	<select id="bannerOne" resultType="com.thrj.Entity.Movies">
    	   <![CDATA[
        select 
 	     movie_seq
@@ -123,39 +127,48 @@
       order by movie_cnt desc
 	  limit 1
 	  		]]>
-   </select>
-	
+	</select>
+
 	<!-- 페이징 -->
-	<select id="getTotalRowCount" parameterType="com.thrj.Entity.Paging" resultType="int">
-	    select count(*) from movies
+	<select id="getTotalRowCount"
+		parameterType="com.thrj.Entity.Paging" resultType="int">
+		select count(*) from movies
 	</select>
-	
-	<select id="getPageList" resultType="com.thrj.Entity.Movies" parameterType="com.thrj.Entity.Paging">
-	    select @rownum:=@rownum+1 as no, m.*
+
+	<select id="getPageList" resultType="com.thrj.Entity.Movies"
+		parameterType="com.thrj.Entity.Paging">
+		select @rownum:=@rownum+1 as no, m.*
 		from movies m
-		limit #{firstRow},#{lastRow};
+		limit
+		#{firstRow},#{lastRow};
 	</select>
-	
-	<update id="updateStarRating" parameterType="com.thrj.Entity.Movies">
-	    update movies set 
-	    movie_participate = movie_participate + 1
-	  , movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
-	    where movie_seq = #{movie_seq}
-	</update> 
-	
-	
-	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
+
+	<update id="updateStarRating"
+		parameterType="com.thrj.Entity.Movies">
+		update movies set
+		movie_participate = movie_participate + 1
+		, movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
+		where movie_seq = #{movie_seq}
+	</update>
+
+
+	<select id="historySeq" parameterType="string"
+		resultType="com.thrj.Entity.Movies">
 	      <![CDATA[
 	    select 
 	          m.*
 	        from movies m,members u,history h
            where m.movie_seq =h.movie_seq
              and u.mb_id =h.mb_id
-             and h.mb_id = #{mb_id}
+          ]]>
+		<if test='mb_id != null and !"".equals(mb_id)'>
+			and h.mb_id = #{mb_id}
+		</if>
+      <![CDATA[       
            order by h.history_date  desc
-           LIMIT 4
+           LIMIT 5
 		]]>
 	</select>
-	
-	
+
+
 </mapper>
