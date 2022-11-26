@@ -29,6 +29,5 @@ public class Movies {
 	private String movie_cnt;                          // 페이지 관람수
 	private String movie_age;                          // 영화 시청연령
 	private int movie_participate;                     // 별점 참여자수
-	
-	
+	private String mb_id;                              // 시청자 아이디
 }

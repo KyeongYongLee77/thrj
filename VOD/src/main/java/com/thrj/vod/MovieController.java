@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thrj.Entity.Comments;
 import com.thrj.Entity.History;
+import com.thrj.Entity.Members;
 import com.thrj.Entity.Movies;
 import com.thrj.Entity.Paging;
 import com.thrj.Mapper.CommentsMapper;
@@ -42,34 +43,47 @@ public class MovieController {
 		
 		HttpSession session = request.getSession();
 		String mb_id=(String)session.getAttribute("mb_id");
+		
 		List<History> history_seq = mapper.historySeq(mb_id);
 		model.addAttribute("history_seq",history_seq);
 		return "index";
 	}
 	
 	//상세페이지 사이드바 장르별 리스트 
-//	@GetMapping(value="/genreList.do")
-//	public String genreList(Movies vo, Model model) {
-//		
-//		List<Movies> list_genre = mapper.movieGenreList();
-//		model.addAttribute("list_genre",list_genre);
-//		
-//		return "redirect:/animeDetails.do?movie_seq="+vo.getMovie_seq();
-//		
-//	}
+
+	@GetMapping(value="/genreList.do")
+	public String genreList(Movies vo, Model model) {
+		/*
+		List<Movies> list_genre = mapper.movieGenreList();
+		model.addAttribute("list_genre",list_genre);
+		
+		return "redirect:/animeDetails.do?movie_seq="+vo.getMovie_seq();
+	 */
+		return null;
+	}
 	
 	@RequestMapping(value="/animeDetails.do", method=RequestMethod.GET)
 	public ModelAndView animeDetails(HttpServletRequest request, Model model) {
 		
 		ModelAndView mv = new ModelAndView();
 		
-		int movieSeq = Integer.parseInt(request.getParameter("movie_seq")) ;
+		int movieSeq = Integer.parseInt(request.getParameter("movie_seq")) ;//게시물 번호 int형으로 변환
 		String movieType = request.getParameter("movie_type");
 		
 		mapper.raiseLookupCount(movieSeq); //영화 게시물 view수
 		Movies movie=mapper.animeDetails(movieSeq); //내용 시나리오
 		int Comments_cnt=cmt_mapper.CommentsCnt(movieSeq); //댓글수
 	    List<Comments> list = cmt_mapper.getAllCommentsByPage(movieSeq); //게시물수
+	    
+	    HttpSession session = request.getSession();
+		String mb_id=(String)session.getAttribute("mb_id");
+		
+		if(mb_id!=null && !"".contentEquals(mb_id)) {
+			Movies vo =new Movies();
+			vo.setMovie_seq(movieSeq);
+			vo.setMb_id(mb_id);
+		    mapper.insertHistorySeq(vo);//누락된 시청목록 insert 하기
+		}
 	    
 		List<Movies> list_genre = mapper.movieGenreList(movie);
 		model.addAttribute("list_genre",list_genre);
@@ -82,24 +96,34 @@ public class MovieController {
 		return mv;
 	}
 	
-	@GetMapping("/NeTupidiaRanking.do")
+	@RequestMapping(value="/NeTupidiaRanking.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String animeWatching(Model model) {
 		List<Movies> list = mapper.movieList();
 		model.addAttribute("list",list);
 		return "anime-watching";
 	}
 	
-	@GetMapping("/NeTupidiaUpcoming.do")
+	@RequestMapping(value="/NeTupidiaUpcoming.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String blog(Model model) {
 		List<Movies> list = mapper.movieList();
 		model.addAttribute("list",list);
 		return "blog";
 	}
 	
-	@GetMapping("/blogDetails.do")
-	public String blogDetails() {
-		
-		return "blog-details";
+	@RequestMapping(value="/RankingDetails.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView rankingDetails(@ModelAttribute Movies vo, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("movies",vo);
+		mv.setViewName("blog-details");
+		return mv;
+	}
+	
+	@RequestMapping(value="/UpcomingDetails.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView upcomingDetails(@ModelAttribute Movies vo, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("movies",vo);
+		mv.setViewName("blog-details");
+		return mv;
 	}
 	
 	@GetMapping("/categories.do")

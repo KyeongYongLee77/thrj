@@ -104,8 +104,8 @@
 	<!-- 카운팅 -->
 	<update id="raiseLookupCount" parameterType="int">
 	  <![CDATA[
-        update movies 
-        set movie_cnt = movie_cnt+1 
+        update movies set 
+        movie_cnt = movie_cnt+1 
         where movie_seq = #{movie_seq}
         ]]>
 	</update>
@@ -152,14 +152,15 @@
 	</update>
 
 
+	<!-- 시청한 history  -->
 	<select id="historySeq" parameterType="string"
 		resultType="com.thrj.Entity.Movies">
 	      <![CDATA[
 	    select 
 	          m.*
 	        from movies m,members u,history h
-           where m.movie_seq =h.movie_seq
-             and u.mb_id =h.mb_id
+           where m.movie_seq = h.movie_seq
+             and u.mb_id = h.mb_id
           ]]>
 		<if test='mb_id != null and !"".equals(mb_id)'>
 			and h.mb_id = #{mb_id}
@@ -169,6 +170,20 @@
            LIMIT 5
 		]]>
 	</select>
-
+	
+	<!-- insert한 history  -->
+	<insert id="insertHistorySeq" parameterType="com.thrj.Entity.Movies">
+	  <![CDATA[
+		INSERT INTO history (
+				mb_id
+			  , movie_seq
+			  , history_date
+			   ) VALUES(
+			    #{mb_id}
+			  , #{movie_seq}
+			  , DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		 	)
+		]]>
+	</insert>
 
 </mapper>
