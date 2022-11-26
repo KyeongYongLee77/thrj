@@ -86,7 +86,7 @@
                                 <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">
                                       <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-                                          <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                          <div class="comment"><i class="fa fa-comments"></i>${movies.movie_cnt}</div>
                                           <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
                                        </div>
                                        <div class="product__item__text">
@@ -121,7 +121,7 @@
                                <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">
                                        <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-                                           <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                           <div class="comment"><i class="fa fa-comments"></i>${movies.movie_cnt}</div>
                                            <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
                                        </div>
                                        <div class="product__item__text">
