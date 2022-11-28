@@ -98,8 +98,6 @@ public class MovieController {
 	
 	@RequestMapping(value="/NeTupidiaRanking.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public String animeWatching(Model model) {
-		List<Movies> list = mapper.movieList();
-		model.addAttribute("list",list);
 		return "anime-watching";
 	}
 	
@@ -136,7 +134,7 @@ public class MovieController {
 		List<Paging> getPageList = mapper.getPageList(paging);
 		model.addAttribute("Paging", paging);
 		
-		List<Movies> list = mapper.movieList();
+		List<Movies> list = mapper.categorieList();
 		model.addAttribute("list",list);
 		return "categories";
 	}

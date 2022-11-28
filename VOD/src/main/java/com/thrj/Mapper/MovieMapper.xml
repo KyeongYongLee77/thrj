@@ -50,7 +50,14 @@
 	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
 	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
 	     ,m.movie_director,m.movie_cnt,m.movie_participate
-	     order by m.movie_seq
+	     order by m.movie_seq desc
+	     limit 3
+	     ]]>
+	</select>
+	
+	<select id="categorieList" resultType="com.thrj.Entity.Movies">
+   	    <![CDATA[
+	      select * from movies
 	     ]]>
 	</select>
 
@@ -105,7 +112,8 @@
 	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
 	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
 	     ,m.movie_director,m.movie_cnt,m.movie_participate
-	     order by m.movie_participate desc
+	     order by m.movie_participate asc
+	     limit 3
  	   ]]>
 	</select>
 
@@ -133,13 +141,11 @@
 	</select>
 
 	<!-- 페이징 -->
-	<select id="getTotalRowCount"
-		parameterType="com.thrj.Entity.Paging" resultType="int">
+	<select id="getTotalRowCount" parameterType="com.thrj.Entity.Paging" resultType="int">
 		select count(*) from movies
 	</select>
 
-	<select id="getPageList" resultType="com.thrj.Entity.Movies"
-		parameterType="com.thrj.Entity.Paging">
+	<select id="getPageList" resultType="com.thrj.Entity.Movies" parameterType="com.thrj.Entity.Paging">
 		select @rownum:=@rownum+1 as no, m.*
 		from movies m
 		limit
@@ -172,7 +178,7 @@
       <![CDATA[       
            group by  m.movie_seq, m.movie_title, m.movie_img
            order by m.movie_seq desc
-           limit 5
+           limit 4
 		]]>
 	</select>
 	
