@@ -137,12 +137,24 @@
 				
 				if(movieInfo.actors.length > 0 ){
 					output+="<li><span>출연배우 :</span> ";
+					
 					for(let i=0; i<movieInfo.actors.length; i++){
-						output+=movieInfo.actors[i]['peopleNm'];
-						if( i < movieInfo.actors.length-1){
-							output+=", ";
+						
+							output+=movieInfo.actors[i]['peopleNm'];
+							
+							if( i < movieInfo.actors.length-1){
+								
+								if(i<4){
+									output+=" , ";
+								} else {
+									output+=" 외&nbsp;"+(movieInfo.actors.length-4)+" 명";
+									break;
+								}
+								
+							}
+							
 						}
-					}
+					
 					+"</li>";
 				}
 				
