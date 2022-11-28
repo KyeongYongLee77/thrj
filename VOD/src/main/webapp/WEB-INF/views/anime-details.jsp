@@ -200,7 +200,6 @@
                                 <c:if test="${sessionScope.mb_id != null}">
                                 	<button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
                                 </c:if>
-                                <button onclick="createComments()" type="button" class="btn btn-danger">리뷰작성</button>
                             </form>
                         </div>
                     </div>

@@ -104,14 +104,13 @@
 	 			 	
 	 			 	
         		 	if(element['release_date'].substring(0,4) == '2022' ){ //2022년 기준
-        		 	
+        		 		
         		 		var apiUrl = "http://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key="+key+"&movieNm="+element['title']+"&itemPerPage=1";
         		 		
         		 		fetch(apiUrl).then(res => res.json()).then(function(res){
         		 			 	var movieList=res.movieListResult.movieList;
         		 			 	var movie_seq=movieList[0].movieCd;
-        		 			 	
-        		 			    const myDiv = document.createElement('div');
+        		 			 	const myDiv = document.createElement('div');
         		 			    myDiv.classList.add('col-lg-3');
         			        	myDiv.classList.add('col-md-5');
         			        	myDiv.classList.add('col-sm-5');
