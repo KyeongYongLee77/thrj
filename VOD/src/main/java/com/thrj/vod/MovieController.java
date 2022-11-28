@@ -63,7 +63,7 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value="/animeDetails.do", method=RequestMethod.GET)
-	public ModelAndView animeDetails(HttpServletRequest request, Model model) {
+	public ModelAndView animeDetails(HttpServletRequest request) {
 		
 		ModelAndView mv = new ModelAndView();
 		
@@ -86,8 +86,8 @@ public class MovieController {
 		}
 	    
 		List<Movies> list_genre = mapper.movieGenreList(movie);
-		model.addAttribute("list_genre",list_genre);
 		
+		mv.addObject("list_genre",list_genre);
 		mv.addObject("CommentList",list);
 		mv.addObject("CommentsCnt",Comments_cnt);
 		mv.addObject("movie", movie);
