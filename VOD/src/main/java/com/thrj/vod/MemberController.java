@@ -99,15 +99,21 @@ public class MemberController {
 		 HttpSession session = request.getSession();
 		 String mb_id=(String)session.getAttribute("mb_id");
 		 
+		 int cntComment=comment_mapper.CommentsUsrCnt(mb_id);
+		 int cnthistory=history_mapper.HistoryUsrCnt(mb_id);
+		 
 		 //회원 정보 삭제
 		 mapper.deleteMember(mb_id);
 		 
+		 if(cntComment>0) {
 		 //회원댓글삭제
-		 comment_mapper.deleteComments(mb_id);
+			 comment_mapper.deleteComments(mb_id);
+		 }
 		 
+		if(cnthistory>0) {
 		 //회원 history삭제
-		 history_mapper.deleteHistory(mb_id);
-		 
+		  history_mapper.deleteHistory(mb_id);
+		 }
 		 session.invalidate();
 		 mv.setViewName("redirect:/index.do");
 		 

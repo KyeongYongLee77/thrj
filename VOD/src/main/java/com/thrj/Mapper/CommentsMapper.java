@@ -13,4 +13,5 @@ public interface CommentsMapper {
 	public int CommentsCnt(int movieSeq);   //   카운트 수
 	public List<Comments> getAllCommentsByPage(int movieSeq); //리스트수
 	public void deleteComments(String mb_id); // 댓글삭제
+	public int CommentsUsrCnt(String mb_id);//댓글 남긴것 확인
 }

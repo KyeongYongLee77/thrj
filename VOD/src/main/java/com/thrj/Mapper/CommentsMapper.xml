@@ -38,5 +38,12 @@
         DELETE FROM movies_comments WHERE mb_id = #{mb_id}
         ]]>
     </delete>
+    
+	  <!--삭제할때  확인할때  -->
+	<select id="CommentsUsrCnt" resultType="int" parameterType="string">
+   	  <![CDATA[
+	       select count(cmt_seq) from movie_comments where mb_id = #{mb_id}
+	  ]]>
+	</select>
 	
 </mapper>

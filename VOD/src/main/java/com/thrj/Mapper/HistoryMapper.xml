@@ -7,5 +7,12 @@
         DELETE FROM history WHERE mb_id = #{mb_id}
         ]]>
     </delete>
+    
+   	  <!--삭제할때  확인할때  -->
+	<select id="HistoryUsrCnt" resultType="int" parameterType="string">
+   	  <![CDATA[
+	       select count(movie_seq) from history where mb_id = #{mb_id}
+	  ]]>
+	</select>
 	
 </mapper>
