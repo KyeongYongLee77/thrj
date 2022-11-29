@@ -137,6 +137,7 @@
 
 	<!-- Js Plugins -->
 	<%@ include file="./include/jsscript.jsp"%>
+    <script src="resources/js/jquery.form.js"></script>
 	<script type="text/javascript">
 
 
