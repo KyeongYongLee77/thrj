@@ -33,10 +33,10 @@
     </insert>
     
 	
-	 <insert id="deleteHistory" parameterType="string">
+	 <delete id="deleteComments" parameterType="string">
 	     <![CDATA[
-        DELETE FROM history WHERE mb_id = #{mb_id}
+        DELETE FROM movies_comments WHERE mb_id = #{mb_id}
         ]]>
-    </insert>
+    </delete>
 	
 </mapper>
