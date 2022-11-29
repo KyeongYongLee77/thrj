@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thrj.Entity.Members;
 import com.thrj.Entity.Movies;
+import com.thrj.Mapper.CommentsMapper;
 import com.thrj.Mapper.HistoryMapper;
 import com.thrj.Mapper.MemberMapper;
 import com.thrj.Mapper.MovieMapper;
@@ -41,6 +42,9 @@ public class MemberController {
 	
 	@Autowired
 	public HistoryMapper history_mapper;
+	
+	@Autowired
+	public CommentsMapper comment_mapper;
 	
 	@GetMapping("/login.do")
 	public ModelAndView login(){
@@ -97,7 +101,9 @@ public class MemberController {
 		 
 		 //회원 정보 삭제
 		 mapper.deleteMember(mb_id);
+		 
 		 //회원댓글삭제
+		 comment_mapper.deleteComments(mb_id);
 		 
 		 //회원 history삭제
 		 history_mapper.deleteHistory(mb_id);
