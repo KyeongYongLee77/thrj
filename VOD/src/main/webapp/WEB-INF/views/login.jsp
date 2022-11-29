@@ -41,7 +41,7 @@
                 <div class="col-lg-6">
                     <div class="login__register">
                         <h3>재미있는 영화를 찾으시나요?<br/>회원가입하시고 혜택을 누리세요!</h3>
-                        <a href="#" class="primary-btn">회원 가입</a>
+                        <a href="${context}/signup.do" class="primary-btn">회원 가입</a>
                     </div>
                 </div>
             </div>

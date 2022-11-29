@@ -68,5 +68,11 @@
 			WHERE  mb_id = #{mb_id}
 		]]>
 	</select>
-	 	
+	
+   	<!-- 회원가입 체크 -->
+	 	<select id="retrieveUser" resultType="com.thrj.Entity.Members" parameterType="string">
+		<![CDATA[
+			SELECT * FROM members WHERE mb_id = #{mb_id}
+		]]>
+	</select>	
 </mapper>
