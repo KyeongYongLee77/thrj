@@ -62,9 +62,10 @@
 	<!-- Js Plugins -->
 	<script>
 	$( function() {
-		var myDate = new Date();
-		var prettyDate = myDate.getFullYear()+'-'+(myDate.getMonth()+1) + '-' +(myDate.getDate()-1);
-		showList(prettyDate);
+		var myDate  = new Date();
+		var prettyDate = new Date(myDate.setDate(myDate.getDate() - 1));	// 어제
+		var yesterdate = myDate.getFullYear()+'-'+(myDate.getMonth()+1) + '-' +(myDate.getDate());
+		showList(yesterdate);
 		$.datepicker.regional['ko'] = {
 	           monthNames: ['1월(JAN)','2월(FEB)','3월(MAR)','4월(APR)','5월(MAY)','6월(JUN)','7월(JUL)','8월(AUG)','9월(SEP)','10월(OCT)','11월(NOV)','12월(DEC)'],
 	            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -81,8 +82,8 @@
 	        };
 	    $.datepicker.setDefaults($.datepicker.regional['ko']);
 		$("#dateSelect").datepicker();
-		 $("#dateSelect").val(prettyDate); 
-		 $('#dateSelect').datepicker("option", "maxDate",prettyDate);
+		 $("#dateSelect").val(yesterdate); 
+		 $('#dateSelect').datepicker("option", "maxDate",yesterdate);
 		 $('#dateSelect').on("change", function() {
 			 $("#rowproduct").empty();
 			 showList(this.value);
@@ -94,14 +95,15 @@
         var apiUrl = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key="+key+"&targetDt="+date.replaceAll(/-/gi,"");
         const rowproduct = document.querySelector('#rowproduct');
         const xhr = new XMLHttpRequest();
+        
         xhr.onreadystatechange = function(){
         	 if(xhr.readyState == 4 && xhr.status == 200){
         		 var jsonObj = JSON.parse(xhr.response);
         		 const boxOfficeResult = jsonObj['boxOfficeResult'];
         		 const movieList = boxOfficeResult['dailyBoxOfficeList'];
         		 movieList.forEach(element => {
-        			 const searchUrl = "https://api.themoviedb.org/3/search/movie?api_key="+api_key+"&language=ko-Kr&page=1&include_adult=false&query="+element['movieNm'];
-        			 const base_url = "https://image.tmdb.org/t/p/w300/";
+        			 var searchUrl = "https://api.themoviedb.org/3/search/movie?api_key="+api_key+"&language=ko-Kr&page=1&include_adult=false&query="+element['movieNm'];
+        			 var base_url = "https://image.tmdb.org/t/p/w300/";
         			 const myDiv = document.createElement('div');
         			 fetch(searchUrl).then(res => res.json()).then(function(res){
                     	myDiv.classList.add('col-lg-3');

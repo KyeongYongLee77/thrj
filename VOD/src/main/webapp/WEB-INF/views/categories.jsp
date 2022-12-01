@@ -45,7 +45,7 @@
                     <div class="breadcrumb__links">
                         <a href="index.do"><i class="fa fa-home"></i> Home</a>
                         <a href="categories.do">Categories</a>
-                        <span>Romance</span>
+                        <span>${param.movie_type}</span>
                     </div>
                 </div>
             </div>
@@ -60,10 +60,10 @@
                 <div class="col-lg-8">
                     <div class="product__page__content">
                         <div class="product__page__title">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-6">
                                     <div class="section-title">
-                                        <h4>Romance</h4>
+                                        <h4></h4>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-6">
@@ -76,9 +76,29 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
+                        	<c:choose>
+                        	<c:when test="${param.movie_type != null}">
+                        		<c:forEach items="${typeList}" var="movies" varStatus="i" begin="${paging.firstRow}" end="${paging.lastRow}" step="1">
+	                            <div class="col-lg-4 col-md-6 col-sm-6">
+	                                <div class="product__item">
+	                                    <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
+	                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
+	                                        <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
+	                                    </div>
+	                                    <div class="product__item__text">
+	                                        <ul>
+	                                            <li>Movie</li>
+	                                        </ul>
+	                                        <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
+	                                    </div>
+	                                </div>
+	                            </div>
+                            </c:forEach>
+                        	</c:when>
+                        	<c:otherwise>
                         	<c:forEach items="${list}" var="movies" varStatus="i" begin="${paging.firstRow}" end="${paging.lastRow}" step="1">
 	                            <div class="col-lg-4 col-md-6 col-sm-6">
 	                                <div class="product__item">
@@ -95,9 +115,24 @@
 	                                </div>
 	                            </div>
                             </c:forEach>
+                            </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                     <div class="product__pagination">
+                    <c:choose>
+                        <c:when test="${param.movie_type != null}">
+                    	<a href="categories.do?movie_type=${param.movie_type}&curPage=1"><i class="fa fa-angle-double-left"></i></a>
+                    	<a href="categories.do?movie_type=${param.movie_type}&curPage=${paging.curPage-1 }"><i class="fa fa-angle-left"></i></a>
+                    	<c:forEach begin="${paging.firstPage}" end="${paging.lastPage}" var="i">
+                   			<c:if test="${i eq paging.curPage }"><a href="categories.do?movie_type=${param.movie_type}&curPage=${i}" class="current-page">${i}</a></c:if>
+                   			<c:if test="${i ne paging.curPage }"><a href="categories.do?movie_type=${param.movie_type}&curPage=${i}">${i }</a></c:if>
+                    	</c:forEach>
+                    	<a href="categories.do?movie_type=${param.movie_type}&curPage=${paging.curPage+1 }"><i class="fa fa-angle-right"></i></a>
+                    	<a href="categories.do?movie_type=${param.movie_type}&curPage=${paging.totalPageCount}"><i class="fa fa-angle-double-right"></i></a>
+                    	</c:when>
+                    	
+                    	<c:otherwise>
                     	<a href="categories.do?curPage=1"><i class="fa fa-angle-double-left"></i></a>
                     	<a href="categories.do?curPage=${paging.curPage-1 }"><i class="fa fa-angle-left"></i></a>
                     	<c:forEach begin="${paging.firstPage}" end="${paging.lastPage}" var="i">
@@ -106,6 +141,8 @@
                     	</c:forEach>
                     	<a href="categories.do?curPage=${paging.curPage+1 }"><i class="fa fa-angle-right"></i></a>
                     	<a href="categories.do?curPage=${paging.totalPageCount}"><i class="fa fa-angle-double-right"></i></a>
+                    	</c:otherwise>
+                    </c:choose>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-8">
@@ -114,80 +151,16 @@
                             <div class="section-title">
                                 <h5>시청목록</h5>
                             </div>
-                            <!-- <ul class="filter__controls">
-                                <li class="active" data-filter="*">Day</li>
-                                <li data-filter=".week">Week</li>
-                                <li data-filter=".month">Month</li>
-                                <li data-filter=".years">Years</li>
-                            </ul> -->
-                            <div class="filter__gallery">
-                                <c:forEach items="${list}" var="movies" varStatus="i" begin="0" end="4" step="1">
-			                      	<div class="filter__gallery">
-				                        <div class="product__sidebar__view__item set-bg"
-				                        data-setbg="${imgUrl}/${movies.movie_img}.png">
-				                        <div class="view"><!-- <i class="fa fa-eye"> </i> 9141--></div>
-				                        <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
-				                        </div>
-			                        </div>
-                      			</c:forEach>
-        					</div>
+                            <c:forEach items="${history_seq}" var="movies" >
+	                      	<div class="filter__gallery">
+		                        <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
+		                        <div class="view"><!-- <i class="fa fa-eye"> </i> 9141--></div>
+		                        <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
+		                        </div>
+	                        </div>
+                      	    </c:forEach>
     </div>
     <div class="product__sidebar__comment">
-<!--         <div class="section-title">
-            <h5>New Comment</h5>
-        </div>
-        <div class="product__sidebar__comment__item">
-            <div class="product__sidebar__comment__item__pic">
-                <img src="resources/img/sidebar/comment-1.jpg" alt="">
-            </div>
-            <div class="product__sidebar__comment__item__text">
-                <ul>
-                    <li>Active</li>
-                    <li>Movie</li>
-                </ul>
-                <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
-            </div>
-        </div>
-        <div class="product__sidebar__comment__item">
-            <div class="product__sidebar__comment__item__pic">
-                <img src="resources/img/sidebar/comment-2.jpg" alt="">
-            </div>
-            <div class="product__sidebar__comment__item__text">
-                <ul>
-                    <li>Active</li>
-                    <li>Movie</li>
-                </ul>
-                <h5><a href="#">Shirogane Tamashii hen Kouhan sen</a></h5>
-                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
-            </div>
-        </div>
-        <div class="product__sidebar__comment__item">
-            <div class="product__sidebar__comment__item__pic">
-                <img src="resources/img/sidebar/comment-3.jpg" alt="">
-            </div>
-            <div class="product__sidebar__comment__item__text">
-                <ul>
-                    <li>Active</li>
-                    <li>Movie</li>
-                </ul>
-                <h5><a href="#">Kizumonogatari III: Reiket su-hen</a></h5>
-                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
-            </div>
-        </div>
-        <div class="product__sidebar__comment__item">
-            <div class="product__sidebar__comment__item__pic">
-                <img src="resources/img/sidebar/comment-4.jpg" alt="">
-            </div>
-            <div class="product__sidebar__comment__item__text">
-                <ul>
-                    <li>Active</li>
-                    <li>Movie</li>
-                </ul>
-                <h5><a href="#">Monogatari Series: Second Season</a></h5>
-                <span><i class="fa fa-eye"></i> 19.141 Viewes</span>
-            </div>
-        </div> -->
     </div>
 </div>
 </div>

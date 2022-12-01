@@ -17,15 +17,15 @@
                                 <li class="active"><a href="index.do">Home</a></li>
                                    <li><a href="categories.do">영화 <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
-                                        <li><a href="#">다큐멘터리</a></li>
-                                        <li><a href="#">드라마</a></li>
-                                        <li><a href="#">로맨스</a></li>
-                                        <li><a href="#">스릴러</a></li>
-                                        <li><a href="#">SF</a></li>
-                                        <li><a href="#">애니메이션</a></li>
-                                        <li><a href="#">액션</a></li>
-                                        <li><a href="#">코미디</a></li>
-                                        <li><a href="#">판타지</a></li>
+                                        <li><a href="categories.do?movie_type=다큐멘터리">다큐멘터리</a></li>
+                                        <li><a href="categories.do?movie_type=드라마">드라마</a></li>
+                                        <li><a href="categories.do?movie_type=로맨스">로맨스</a></li>
+                                        <li><a href="categories.do?movie_type=스릴러">스릴러</a></li>
+                                        <li><a href="categories.do?movie_type=SF">SF</a></li>
+                                        <li><a href="categories.do?movie_type=애니메이션">애니메이션</a></li>
+                                        <li><a href="categories.do?movie_type=액션">액션</a></li>
+                                        <li><a href="categories.do?movie_type=코미디">코미디</a></li>
+                                        <li><a href="categories.do?movie_type=판타지">판타지</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="NeTupidiaRanking.do">박스오피스</a></li>

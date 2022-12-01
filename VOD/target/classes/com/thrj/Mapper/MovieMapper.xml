@@ -2,69 +2,232 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thrj.Mapper.MovieMapper">
 
-    <!--번호로 넘겨받았을때 -->
-   	<select id="animeDetails" resultType="com.thrj.Entity.Movies" parameterType="int">
+	<!--번호로 넘겨받았을때 -->
+	<select id="animeDetails" resultType="com.thrj.Entity.Movies"
+		parameterType="int">
    	   	    <![CDATA[
-	    		select * from movies where movie_seq = #{movie_seq}
+	    		select 
+	    			movie_seq
+	    		  , movie_title
+	    		  , movie_content
+	    		  , movie_img
+	    		  , movie_type
+	    		  , movie_open_date
+	    		  , movie_rating
+	    		  , movie_runtime
+	    		  , movie_actor
+	    		  , movie_country
+	    		  , admin_id
+	    		  , movie_director
+	    	      , movie_cnt
+	    		  , movie_participate
+	    		from movies where movie_seq = #{movie_seq}
 	    	]]>
 	</select>
-	
-    <!--List -->	
-   	<select id="movieList" resultType="com.thrj.Entity.Movies">
-	    select * from movies
-	</select> 
-	
-   	    <!--Similar Genre List -->	
-   	<select id="movieGenreList" parameterType="com.thrj.Entity.Movies" resultType="com.thrj.Entity.Movies">
-	    select * from movies
-	    where movie_type like concat('%', #{movie_type}, '%')
-	    and movie_seq != #{movie_seq}
-	
+
+	<!--List -->
+	<select id="movieList" resultType="com.thrj.Entity.Movies">
+   	    <![CDATA[
+	      select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , m.movie_img as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where c.movie_seq = m.movie_seq
+	     group by m.movie_seq,m.movie_title,m.movie_content
+	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
+	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
+	     ,m.movie_director,m.movie_cnt,m.movie_participate
+	     order by m.movie_seq desc
+	     limit 3
+	     ]]>
 	</select>
 	
-   	<!-- 배너 -->
-   	<select id="bannerList" resultType="com.thrj.Entity.Movies">
-       select * from movies order by movie_cnt desc
-   </select>
+	<select id="categorieList" resultType="com.thrj.Entity.Movies">
+   	    <![CDATA[
+	      select * from movies
+	     ]]>
+	</select>
+
+	<select id="movie_typeList" resultType="com.thrj.Entity.Movies">
+	    <![CDATA[   
+	    select 
+	      movie_seq
+	    from movies
+	    where movie_type like concat('%', #{movie_type}, '%')
+	    order by movie_cnt desc
+ 	   ]]>
+	</select>
 	
-   	<!-- 카운팅  -->
+	<select id="typeList" parameterType="int" resultType="com.thrj.Entity.Movies">
+	    <![CDATA[
+	      select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , m.movie_img as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where m.movie_seq=#{seq}
+	     order by m.movie_cnt desc
+	     ]]>
+	</select>
+	
+	<!--Similar Genre List -->
+	<select id="movieGenreList" parameterType="com.thrj.Entity.Movies" resultType="com.thrj.Entity.Movies">
+   	 <![CDATA[   
+	    select 
+	      movie_seq
+	      , movie_title
+	      , movie_content
+	      , movie_img
+	      , movie_type
+	      , movie_open_date
+	      , movie_rating
+	      , movie_runtime
+	      , movie_actor
+	      , movie_country
+	      , admin_id
+	      , movie_director
+	      , movie_cnt
+	      , movie_participate
+	    from movies
+	    where movie_type like concat('%', #{movie_type}, '%')
+	    and movie_seq != #{movie_seq}
+	    order by movie_seq desc
+	    LIMIT 0,4
+ 	   ]]>
+	</select>
+
+	<!-- 배너 -->
+	<select id="bannerList" resultType="com.thrj.Entity.Movies">
+   	 <![CDATA[
+         select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , m.movie_img as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where c.movie_seq = m.movie_seq
+	     group by m.movie_seq,m.movie_title,m.movie_content
+	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
+	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
+	     ,m.movie_director,m.movie_cnt,m.movie_participate
+	     order by m.movie_participate asc
+	     limit 3
+ 	   ]]>
+	</select>
+
+	<!-- 카운팅 -->
 	<update id="raiseLookupCount" parameterType="int">
-        update movies 
-        set movie_cnt = movie_cnt+1 
+	  <![CDATA[
+        update movies set 
+        movie_cnt = movie_cnt+1 
         where movie_seq = #{movie_seq}
+        ]]>
 	</update>
-	
+
 	<!-- 배너 하나씩 추출할때 -->
-   	<select id="bannerOne" resultType="com.thrj.Entity.Movies">
+	<select id="bannerOne" resultType="com.thrj.Entity.Movies">
+   	   <![CDATA[
        select 
 	     movie_seq
 	     , movie_title
-	     , movie_type
 	     , movie_content
 	     , movie_img
-	     , movie_rating
-	     , movie_open_date 
       from movies 
       order by movie_cnt desc
 	  limit 1
-   </select>
-	
+	  		]]>
+	</select>
+
 	<!-- 페이징 -->
 	<select id="getTotalRowCount" parameterType="com.thrj.Entity.Paging" resultType="int">
-	    select count(*) from movies
+		select count(*) from movies
 	</select>
-	
+
 	<select id="getPageList" resultType="com.thrj.Entity.Movies" parameterType="com.thrj.Entity.Paging">
-	    select @rownum:=@rownum+1 as no, m.*
+		select @rownum:=@rownum+1 as no, m.*
 		from movies m
-		limit #{firstRow},#{lastRow};
+		limit
+		#{firstRow},#{lastRow};
+	</select>
+
+	<update id="updateStarRating" parameterType="com.thrj.Entity.Movies">
+		update movies set
+		movie_participate = movie_participate + 1
+		, movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
+		where movie_seq = #{movie_seq}
+	</update>
+
+
+	<!-- 시청한 history  -->
+	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
+	      <![CDATA[
+	    	 select
+   	   			m.movie_seq as movie_seq
+	    	  , m.movie_title as movie_title
+	    	  , m.movie_img as movie_img
+			from movies m
+  			where m.movie_seq  in (
+   			select movie_seq from history h
+          ]]>
+		<if test='mb_id != null and !"".equals(mb_id)'>
+			where h.mb_id = #{mb_id}
+		</if>
+      <![CDATA[       
+		   order by h.history_date desc
+   			)
+           limit 4
+		]]>
 	</select>
 	
-	<update id="updateStarRating" parameterType="com.thrj.Entity.Movies">
-	    update movies
-	    set movie_participate = movie_participate + 1, movie_rating = movie_rating + #{movie_rating}*2 / movie_participate
-	    where movie_seq = #{movie_seq}
-	    
-	</update> 
-	
+	<!-- insert한 history  -->
+	<insert id="insertHistorySeq" parameterType="com.thrj.Entity.Movies">
+	  <![CDATA[
+		INSERT INTO history (
+				mb_id
+			  , movie_seq
+			  , history_date
+			   ) VALUES(
+			    #{mb_id}
+			  , #{movie_seq}
+			  , DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		 	)
+		]]>
+	</insert>
+
 </mapper>

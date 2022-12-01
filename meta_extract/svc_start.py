@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from khaiii import KhaiiiApi
 
 app = Flask(__name__)
@@ -28,11 +29,34 @@ def user_metadata():
     ret_json = {'status': False, 'key': []}
     return ret_json
 
-# 사용자의 취향 메타데이터 를 입력 받아추천영화  출력
-@app.route("/recom_vod", methods=["GET"])
+def on_json_loading_failed_return_dict(e):
+    return {}
+
+
+# 메타데이터를 입력 받아 추천영화 출력
+@app.route("/recom_vod", methods=['POST'])
 def recom_vod():
-    ret_json = {'status': False, 'key': []}
+    '''
+    {
+    "input": "겨울,자매, 언니,눈, 엘사"
+    }
+    '''
+    print(request.is_json)
+    #print(request.json)
+    params = request.get_json()
+    #params = request.get_json()
+    print('-', params)
+    print(params['input'])
+
+    movie_cds = ["1234","1234","1234","1234"]
+    '''
+    output
+    {'status': True, 'movie_cd': [1,2,3,4]}
+    '''
+    ret_json = {'status': 'true', 'movie_cds': movie_cds}
+    print(ret_json)
     return ret_json
+
 
 # 영화 메타데이터 출력
 @app.route("/vod_metadata", methods=["GET"])
@@ -47,4 +71,4 @@ def similar_movie():
     return ret_json
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8888)
+    app.run(host='0.0.0.0', port=8888, debug=True)

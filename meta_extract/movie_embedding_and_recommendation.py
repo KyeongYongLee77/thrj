@@ -11,6 +11,12 @@ from sentence_transformers import SentenceTransformer
 from konlpy.tag import Kkma, Komoran, Okt, Mecab, Hannanum, Twitter
 from khaiii import KhaiiiApi
 
+from flask import Flask
+from flask import request
+
+app = Flask(__name__)
+api = KhaiiiApi()
+
 # 시드값을 고정해두지 않았기에 유사도 측정에 있어서 미세한 차이가 존재할 수 있음
 
 PLOT_TOP_K = 20
@@ -37,6 +43,32 @@ class khaiii_morph_analyzer:
             if morph_tag in ['NNP', 'NNG', 'NNB', 'NP']:    # 수사는 제외
                 nouns_list.append(token)
         return nouns_list
+
+
+# 메타데이터를 입력 받아 추천영화 출력
+@app.route("/recom_vod", methods=['POST'])
+def recom_vod():
+    '''
+    {
+    "input": "겨울,자매, 언니,눈, 엘사"
+    }
+    '''
+    print(request.is_json)
+    #print(request.json)
+    params = request.get_json()
+    #params = request.get_json()
+    print('-', params)
+    print(params['input'])
+
+    movie_cds = ["1234","1234","1234","1234"]
+    '''
+    output
+    {'status': True, 'movie_cd': [1,2,3,4]}
+    '''
+    ret_json = {'status': 'true', 'movie_cds': movie_cds}
+    print(ret_json)
+    return ret_json
+
 
 
 if __name__ == '__main__':

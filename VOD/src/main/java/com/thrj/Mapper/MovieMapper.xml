@@ -61,6 +61,40 @@
 	     ]]>
 	</select>
 
+	<select id="movie_typeList" resultType="com.thrj.Entity.Movies">
+	    <![CDATA[   
+	    select 
+	      movie_seq
+	    from movies
+	    where movie_type like concat('%', #{movie_type}, '%')
+	    order by movie_cnt desc
+ 	   ]]>
+	</select>
+	
+	<select id="typeList" parameterType="int" resultType="com.thrj.Entity.Movies">
+	    <![CDATA[
+	      select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , m.movie_img as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where m.movie_seq=#{seq}
+	     order by m.movie_cnt desc
+	     ]]>
+	</select>
+	
 	<!--Similar Genre List -->
 	<select id="movieGenreList" parameterType="com.thrj.Entity.Movies" resultType="com.thrj.Entity.Movies">
    	 <![CDATA[   
@@ -144,6 +178,10 @@
 	<select id="getTotalRowCount" parameterType="com.thrj.Entity.Paging" resultType="int">
 		select count(*) from movies
 	</select>
+	
+	<select id="getTotalRowCount_1" parameterType="string" resultType="int">
+		select count(*) from movies where movie_type like concat('%', #{movie_type}, '%')
+	</select>
 
 	<select id="getPageList" resultType="com.thrj.Entity.Movies" parameterType="com.thrj.Entity.Paging">
 		select @rownum:=@rownum+1 as no, m.*
@@ -160,25 +198,27 @@
 	</update>
 
 
-	<!-- 시청한 history  -->
+<!-- 시청한 history  -->
 	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
 	      <![CDATA[
-	    	select
-	    	DISTINCT
-	           m.movie_seq as movie_seq
-	         , m.movie_title as movie_title
-	         , m.movie_img as movie_img
-	        from movies m,members u,history h
-            where m.movie_seq = h.movie_seq
-            and u.mb_id = h.mb_id
-          ]]>
-		<if test='mb_id != null and !"".equals(mb_id)'>
-			and h.mb_id = #{mb_id}
-		</if>
-      <![CDATA[       
-           group by  m.movie_seq, m.movie_title, m.movie_img
-           order by m.movie_seq desc
-           limit 4
+	    	SELECT 
+ 				Hs.movie_seq as movie_seq
+				, date_format(Hs.history_date, '%Y-%m-%d') as history_date
+				, Mv.movie_title as movie_title
+				, (select m.mb_name  from members m  where m.mb_id  = Hs.mb_id) as mb_name
+				, Hs.mb_id as mb_id
+				, Mv.movie_img as movie_img
+		   FROM history as Hs
+			LEFT JOIN movies as Mv
+			  ON Hs.movie_seq = Mv.movie_seq
+	    	]]>	  
+		   <if test='mb_id != null and !"".equals(mb_id)'>
+			where Hs.mb_id = #{mb_id}
+			</if>
+		<![CDATA[	
+		group by Hs.movie_seq,date_format(Hs.history_date, '%Y-%m-%d'),Mv.movie_title,Hs.mb_id
+		order by date_format(Hs.history_date, '%Y-%m-%d') desc
+		limit 4
 		]]>
 	</select>
 	

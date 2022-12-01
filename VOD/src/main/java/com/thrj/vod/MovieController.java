@@ -1,5 +1,6 @@
 package com.thrj.vod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class MovieController {
 		HttpSession session = request.getSession();
 		String mb_id=(String)session.getAttribute("mb_id");
 		
-		List<History> history_seq = mapper.historySeq(mb_id);
+		List<Movies> history_seq = mapper.historySeq(mb_id);
 		model.addAttribute("history_seq",history_seq);
 		return "index";
 	}
@@ -123,17 +124,38 @@ public class MovieController {
 	}
 	
 	@GetMapping("/categories.do")
-	public String categories(Model model, @ModelAttribute("paging")Paging paging) {
+	public String categories(Model model, @ModelAttribute("paging")Paging paging, HttpServletRequest request, Movies movie) {
 		
 		int totalRowCount = mapper.getTotalRowCount(paging);
 		paging.setTotalRowCount(totalRowCount);
 		paging.pageSetting();
 		
-		List<Paging> getPageList = mapper.getPageList(paging);
+		String movieType = request.getParameter("movie_type");
+		int totalRowCount_category = mapper.getTotalRowCount_1(movieType);
+		paging.setTotalRowCount_1(totalRowCount_category);
+		paging.pageSetting_1();
+		
+//		List<Paging> getPageList = mapper.getPageList(paging);
 		model.addAttribute("Paging", paging);
 		
 		List<Movies> list = mapper.categorieList();
 		model.addAttribute("list",list);
+		
+//		String movieType = request.getParameter("movie_type");
+		List<Movies> movie_type_list = mapper.movie_typeList(movieType);
+		List<Movies> typeList = new ArrayList<Movies>();
+		
+		for(int i=0; i<movie_type_list.size(); i++) {
+			int seq =movie_type_list.get(i).getMovie_seq();
+			typeList.add(mapper.typeList(seq));
+		}
+		model.addAttribute("typeList",typeList);
+		
+		HttpSession session = request.getSession();
+		String mb_id=(String)session.getAttribute("mb_id");
+		List<Movies> history_seq = mapper.historySeq(mb_id);
+		model.addAttribute("history_seq",history_seq);
+		
 		return "categories";
 	}
 	
