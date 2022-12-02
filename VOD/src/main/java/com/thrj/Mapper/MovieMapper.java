@@ -26,5 +26,5 @@ public interface MovieMapper {
 	public List<Movies> movie_typeList(String movieType);  //카테고리별 영화 시퀀스
 	public Movies typeList(int seq);  //카테고리별 영화 리스트
 	
-	public int getTotalRowCount_1(String movieType);
+	public int getTotalRowCount_1(String movieType);//카테고리별 행개수
 }

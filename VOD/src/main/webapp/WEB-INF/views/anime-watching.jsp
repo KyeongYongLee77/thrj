@@ -64,7 +64,7 @@
 	$( function() {
 		var myDate  = new Date();
 		var prettyDate = new Date(myDate.setDate(myDate.getDate() - 1));	// 어제
-		var yesterdate = myDate.getFullYear()+'-'+(myDate.getMonth()+1) + '-' +(myDate.getDate());
+		var yesterdate = prettyDate.getFullYear()+'-'+(prettyDate.getMonth()+1) + '-' +(prettyDate.getDate()<10?'0'+prettyDate.getDate():prettyDate.getDate());
 		showList(yesterdate);
 		$.datepicker.regional['ko'] = {
 	           monthNames: ['1월(JAN)','2월(FEB)','3월(MAR)','4월(APR)','5월(MAY)','6월(JUN)','7월(JUL)','8월(AUG)','9월(SEP)','10월(OCT)','11월(NOV)','12월(DEC)'],

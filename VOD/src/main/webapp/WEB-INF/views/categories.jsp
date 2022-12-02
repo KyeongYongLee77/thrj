@@ -79,9 +79,7 @@
                             </div> -->
                         </div>
                         <div class="row">
-                        	<c:choose>
-                        	<c:when test="${param.movie_type != null}">
-                        		<c:forEach items="${typeList}" var="movies" varStatus="i" begin="${paging.firstRow}" end="${paging.lastRow}" step="1">
+                       		<c:forEach items="${typeList}" var="movies" varStatus="i" begin="${paging.firstRow}" end="${paging.lastRow}" step="1">
 	                            <div class="col-lg-4 col-md-6 col-sm-6">
 	                                <div class="product__item">
 	                                    <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
@@ -97,31 +95,9 @@
 	                                </div>
 	                            </div>
                             </c:forEach>
-                        	</c:when>
-                        	<c:otherwise>
-                        	<c:forEach items="${list}" var="movies" varStatus="i" begin="${paging.firstRow}" end="${paging.lastRow}" step="1">
-	                            <div class="col-lg-4 col-md-6 col-sm-6">
-	                                <div class="product__item">
-	                                    <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-	                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-	                                        <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
-	                                    </div>
-	                                    <div class="product__item__text">
-	                                        <ul>
-	                                            <li>Movie</li>
-	                                        </ul>
-	                                        <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
-	                                    </div>
-	                                </div>
-	                            </div>
-                            </c:forEach>
-                            </c:otherwise>
-                            </c:choose>
                         </div>
                     </div>
                     <div class="product__pagination">
-                    <c:choose>
-                        <c:when test="${param.movie_type != null}">
                     	<a href="categories.do?movie_type=${param.movie_type}&curPage=1"><i class="fa fa-angle-double-left"></i></a>
                     	<a href="categories.do?movie_type=${param.movie_type}&curPage=${paging.curPage-1 }"><i class="fa fa-angle-left"></i></a>
                     	<c:forEach begin="${paging.firstPage}" end="${paging.lastPage}" var="i">
@@ -130,19 +106,6 @@
                     	</c:forEach>
                     	<a href="categories.do?movie_type=${param.movie_type}&curPage=${paging.curPage+1 }"><i class="fa fa-angle-right"></i></a>
                     	<a href="categories.do?movie_type=${param.movie_type}&curPage=${paging.totalPageCount}"><i class="fa fa-angle-double-right"></i></a>
-                    	</c:when>
-                    	
-                    	<c:otherwise>
-                    	<a href="categories.do?curPage=1"><i class="fa fa-angle-double-left"></i></a>
-                    	<a href="categories.do?curPage=${paging.curPage-1 }"><i class="fa fa-angle-left"></i></a>
-                    	<c:forEach begin="${paging.firstPage}" end="${paging.lastPage}" var="i">
-                   			<c:if test="${i eq paging.curPage }"><a href="categories.do?curPage=${i}" class="current-page">${i}</a></c:if>
-                   			<c:if test="${i ne paging.curPage }"><a href="categories.do?curPage=${i}">${i }</a></c:if>
-                    	</c:forEach>
-                    	<a href="categories.do?curPage=${paging.curPage+1 }"><i class="fa fa-angle-right"></i></a>
-                    	<a href="categories.do?curPage=${paging.totalPageCount}"><i class="fa fa-angle-double-right"></i></a>
-                    	</c:otherwise>
-                    </c:choose>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-8">

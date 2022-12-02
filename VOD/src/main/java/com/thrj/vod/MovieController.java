@@ -135,7 +135,7 @@ public class MovieController {
 		paging.setTotalRowCount_1(totalRowCount_category);
 		paging.pageSetting_1();
 		
-//		List<Paging> getPageList = mapper.getPageList(paging);
+		List<Paging> getPageList = mapper.getPageList(paging);
 		model.addAttribute("Paging", paging);
 		
 		List<Movies> list = mapper.categorieList();
