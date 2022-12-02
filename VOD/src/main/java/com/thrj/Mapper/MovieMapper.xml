@@ -202,11 +202,10 @@
 	<select id="historySeq" parameterType="string" resultType="com.thrj.Entity.Movies">
 	      <![CDATA[
 	    	SELECT 
+	    	DISTINCT 
  				Hs.movie_seq as movie_seq
 				, date_format(Hs.history_date, '%Y-%m-%d') as history_date
 				, Mv.movie_title as movie_title
-				, (select m.mb_name  from members m  where m.mb_id  = Hs.mb_id) as mb_name
-				, Hs.mb_id as mb_id
 				, Mv.movie_img as movie_img
 		   FROM history as Hs
 			LEFT JOIN movies as Mv
@@ -216,7 +215,7 @@
 			where Hs.mb_id = #{mb_id}
 			</if>
 		<![CDATA[	
-		group by Hs.movie_seq,date_format(Hs.history_date, '%Y-%m-%d'),Mv.movie_title,Hs.mb_id
+		group by Hs.movie_seq,date_format(Hs.history_date, '%Y-%m-%d'),Mv.movie_title
 		order by date_format(Hs.history_date, '%Y-%m-%d') desc
 		limit 4
 		]]>
