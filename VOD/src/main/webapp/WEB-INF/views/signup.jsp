@@ -45,7 +45,7 @@
 									required="required" /> <span class="icon_profile"></span>
 							</div>
 							<div class="input__item">
-								<input type="text" placeholder="Password" class="form-control"
+								<input placeholder="Password" class="form-control"
 									type="password" name="mb_pw" id="mb_pw" required="required"><span
 									class="icon_lock"></span>
 							</div>
