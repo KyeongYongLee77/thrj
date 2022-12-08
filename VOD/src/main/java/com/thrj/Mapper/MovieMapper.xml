@@ -193,7 +193,7 @@
 	     , movie_content
 	     , replace(replace(movie_img,' ','%20'),'.jpg','') as movie_img
       from movies 
-      order by movie_cnt desc
+      order by rand()
 	  limit 1
 	  		]]>
 	</select>
