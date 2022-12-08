@@ -67,7 +67,7 @@
                        		<c:forEach items="${typeList}" var="movies" varStatus="i" begin="${paging.firstRow}" end="${paging.lastRow}" step="1">
 	                            <div class="col-lg-4 col-md-6 col-sm-6">
 	                                <div class="product__item">
-	                                    <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}">
+	                                    <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
 	                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
 	                                        <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
 	                                    </div>
