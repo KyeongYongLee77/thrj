@@ -157,7 +157,7 @@ public class MemberController {
 	@ResponseBody public String saveFile(HttpServletRequest request) throws IOException {
 		//,produces = "application/text; charset=UTF-8" -> 파일이 넘어오면서 charset 인코딩 변환이 되어버려진다.
 		String imgFolder ="\\resources\\memberPhoto\\";
-		String realFolder = request.getRealPath("/")+imgFolder;
+		String realFolder = request.getSession().getServletContext().getRealPath("/")+imgFolder;
 		MultipartHttpServletRequest multipartRequest =  (MultipartHttpServletRequest)request;
 		MultipartFile file = multipartRequest.getFile("imageFile"); //단일 파일 업로드
 		String filename = file.getOriginalFilename();
