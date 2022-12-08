@@ -58,7 +58,29 @@
 	
 	<select id="categorieList" resultType="com.thrj.Entity.Movies">
    	    <![CDATA[
-	      select * from movies
+	       select 
+	     	m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , replace(replace(m.movie_img,' ','%20'),'.jpg','') as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , count(c.cmt_seq) as cmt_seq
+	     from movies m,movie_comments c
+	     where c.movie_seq = m.movie_seq
+	     group by m.movie_seq,m.movie_title,m.movie_content
+	     ,m.movie_img,m.movie_type,m.movie_open_date,m.movie_rating
+	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
+	     ,m.movie_director,m.movie_cnt,m.movie_participate
+	     order by m.movie_seq desc
 	     ]]>
 	</select>
 
@@ -185,7 +207,22 @@
 	</select>
 
 	<select id="getPageList" resultType="com.thrj.Entity.Movies" parameterType="com.thrj.Entity.Paging">
-		select @rownum:=@rownum+1 as no, m.*
+		select @rownum:=@rownum+1 as no,
+			m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , replace(replace(m.movie_img,' ','%20'),'.jpg','') as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate
+	      , (select count(c.cmt_seq) from movie_comments c where c.movie_seq = m.movie_seq  ) as cmt_seq
 		from movies m
 		limit
 		#{firstRow},#{lastRow};
@@ -238,7 +275,21 @@
 	</insert>
 	
 	<select id="history_test" parameterType="string" resultType="com.thrj.Entity.Movies">
-	    select m.* 
+	    select 
+	    m.movie_seq as movie_seq
+	      , m.movie_title as movie_title
+	      , m.movie_content as movie_content
+	      , replace(replace(m.movie_img,' ','%20'),'.jpg','') as movie_img
+	      , m.movie_type as movie_type
+	      , m.movie_open_date as movie_open_date
+	      , m.movie_rating as movie_rating
+	      , m.movie_runtime as movie_runtime
+	      , m.movie_actor as movie_actor
+	      , m.movie_country as movie_country
+	      , m.admin_id as admin_id
+	      , m.movie_director as movie_director
+	      , m.movie_cnt as movie_cnt
+	      , m.movie_participate as movie_participate 
 	    from movies m, history h
 		where m.movie_seq = h.movie_seq 
 		and m.movie_seq in (select movie_seq from history 
