@@ -41,15 +41,15 @@
         <div class="container">
             <div class="hero__slider owl-carousel">
             
-            <c:forEach items="${list}" var="movies" varStatus="i" begin="0" end="2" step="1">
-               <div class="hero__items set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
+            <c:forEach items="${list1}" var="movies" varStatus="i" begin="0" end="2" step="1">
+               <div class="hero__items set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="hero__text">
                                 <div class="label">${movies.movie_type}</div>
                                 <h2>${movies.movie_title}</h2>
                                 <p></p>
-                                <a href="animeDetails.do?movie_seq=${movies.movie_seq}"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                                <a onclick="seqClick(${movies.movie_seq})" href="#Redirect"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -70,42 +70,6 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="section-title">
-                                    <h4>Ranking</h4>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                <div class="btn__all">
-                                    <a href="categories.do" class="primary-btn">View All <span class="arrow_right"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                        
-                        <c:forEach items="${list1}" var="movies" varStatus="i" begin="0" end="2" step="1">
-                               <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
-                                   <div class="product__item">
-                                      <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-                                          <div class="comment"><i class="fa fa-comments"></i>&nbsp; ${movies.cmt_seq}</div>
-                                          <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
-                                       </div>
-                                       <div class="product__item__text">
-                                           <ul>
-                                               <li>Movie</li>
-                                           </ul>
-                                           <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
-                                       </div>
-                                   </div>
-                               </div>
-                               </div>
-                            </c:forEach>
-                            
-                        </div>
-                    </div>
-                    <div class="popular__product">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                <div class="section-title">
                                     <h4>VOD 추천</h4>
                                 </div>
                             </div>
@@ -116,24 +80,26 @@
                             </div>
                         </div>
                         <div class="row">
-                     <c:forEach items="${list}" var="movies">
+                        
+                        <c:forEach items="${list}" var="movies">
                                <div class="col-lg-4 col-md-6 col-sm-6">
-                               <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
+                                <div style="cursor: pointer;" onclick="location.href='animeDetails.do?movie_seq=${movies.movie_seq}';">
                                    <div class="product__item">
-                                       <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-                                           <div class="comment"><i class="fa fa-comments"></i>&nbsp; ${movies.cmt_seq}</div>
-                                           <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
+                                      <div class="product__item__pic set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
+                                          <div class="comment"><i class="fa fa-comments"></i>&nbsp; ${movies.cmt_seq}</div>
+                                          <div class="view"><i class="fa fa-star"></i> ${movies.movie_rating/2}</div>
                                        </div>
                                        <div class="product__item__text">
                                            <ul>
                                                <li>Movie</li>
                                            </ul>
-                                           <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
+                                           <h5><a onclick="seqClick(${movies.movie_seq})" href="#Redirect">${movies.movie_title}</a></h5>
                                        </div>
                                    </div>
-                                   </div>
                                </div>
-                       </c:forEach>
+                               </div>
+                            </c:forEach>
+                            
                         </div>
                     </div>
                 </div>
@@ -144,10 +110,12 @@
                                 <h5>시청목록</h5></div>
                        <c:forEach items="${history_seq}" var="movies" >
 	                      	<div class="filter__gallery">
-		                        <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-		                        <div class="view"><!-- <i class="fa fa-eye"> </i> 9141--></div>
-		                        <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
+	                      	<a onclick="seqClick(${movies.movie_seq})" href="#Redirect">
+		                        <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
+			                        <div class="view"><!-- <i class="fa fa-eye"> </i> 9141--></div>
+			                        <h5>${movies.movie_title}</h5>
 		                        </div>
+		                     </a>   
 	                        </div>
                       </c:forEach>
 				    </div>
@@ -161,14 +129,7 @@
 <!-- footer section -->
 		<%@ include file="./footer.jsp"%>
   <!-- Search model Begin -->
-  <div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch"><i class="icon_close"></i></div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
-        </form>
-    </div>
-</div>
+ 	<%@ include file="./search.jsp"%>
 <!-- Search model end -->
 
 <!-- Js Plugins -->
@@ -180,6 +141,44 @@
 <script src="resources/js/jquery.slicknav.js"></script>
 <script src="resources/js/owl.carousel.min.js"></script>
 <script src="resources/js/main.js"></script>
+<script type="text/javascript">
+	/* 클릭시 flask로 movie_seq 값 전송 */
+	function seqClick(seq) {
+		console.log(seq)
+		$.ajax({
+			type : "post",
+			url : "http://127.0.0.1:5000/recom_vod",
+			data : JSON.stringify({"movie_seq":seq}),
+			dataType: "JSON",
+			contentType: "application/json; charset=utf-8",
+			timeout: 4000,
+			success : recomVod,
+			error : function(e){
+				console.log(e);
+			}
+		});
+		/* 성공시 컨트롤러로 movie_seq 값(array) 이동 */
+		function recomVod(data) {
+			console.log(data)
+			$.ajax({
+				
+				url : "recomVod.do",
+	  			type : "POST",
+	  			data : data,
+	  			success : recom,			
+	  			error : recom
+			});
+		};
+		/* 성공시 get방식  이동 */
+ 		function recom() {
+			location.href = "animeDetails.do?movie_seq="+seq;
+		};
+	}
+	
+</script>
+
+
+
 </body>
 
 </html>

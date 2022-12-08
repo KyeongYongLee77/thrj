@@ -65,7 +65,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="${imgUrl}/${movie.movie_img}.png">
+                        <div class="anime__details__pic set-bg" data-setbg="${imgUrl}/${movie.movie_img}.jpg">
                             <div class="comment"><i class="fa fa-comments"></i>&nbsp;${CommentsCnt}</div>
                             <div class="view"><i class="fa fa-eye"></i>&nbsp;${movie.movie_cnt}</div>
                             
@@ -190,7 +190,6 @@
 										for="rate4">★</label>
 									<input type="radio" name="reviewStar" value="1" id="rate5"><label
 										for="rate5">★</label>
-									<!-- <span class="text-bold">별점을 선택해주세요</span> -->
 								</fieldset>
 							</div>	
 						
@@ -210,8 +209,8 @@
                                 <h5>you might like...</h5>
                             </div>
                             <c:forEach items="${list_genre}" var="movies">
-                            <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
-                                 <h5><a href="animeDetails.do?movie_seq=${movies.movie_seq}">${movies.movie_title}</a></h5>
+                            <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
+                                 <h5><a onclick="seqClick(${movies.movie_seq})" href="#Redirect">${movies.movie_title}</a></h5>
                             </div>
                             </c:forEach>
                         </div>
@@ -225,14 +224,8 @@
 		<%@ include file="./footer.jsp"%>
 		
           <!-- Search model Begin -->
-          <div class="search-model">
-            <div class="h-100 d-flex align-items-center justify-content-center">
-                <div class="search-close-switch"><i class="icon_close"></i></div>
-                <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here.....">
-                </form>
-            </div>
-        </div>
+         <%@ include file="./search.jsp"%>
+        
         <!-- Search model end -->
 
         <!-- Js Plugins -->
@@ -296,7 +289,40 @@
 			}
 		});
         }});
-         
+        
+        
+        function seqClick(seq) {
+    		console.log(seq)
+    		$.ajax({
+    			type : "post",
+    			url : "http://127.0.0.1:5000/recom_vod",
+    			data : JSON.stringify({"movie_seq":seq}),
+    			dataType: "JSON",
+    			contentType: "application/json; charset=utf-8",
+    			timeout: 4000,
+    			success : recomVod,
+    			error : function(e){
+    				console.log(e);
+    			}
+    		});
+    		
+    		function recomVod(data) {
+    			console.log(data)
+    			$.ajax({
+    				
+    				url : "recomVod.do",
+    	  			type : "POST",
+    	  			data : data,
+    	  			success : recom,			
+    	  			error : recom
+    			});
+    		};
+    		
+     		function recom() {
+    			location.href = "animeDetails.do?movie_seq="+seq;
+    		};
+    	}
+
     </script>
     </body>
 

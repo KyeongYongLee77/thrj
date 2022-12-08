@@ -7,7 +7,10 @@
   http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
 	
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="19485760"/>
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- 
 		기존 JDBC : 매버 새로운 Connection 생성

@@ -15,7 +15,7 @@
                         <nav class="header__menu mobile-menu">
                             <ul>
                                 <li class="active"><a href="index.do">Home</a></li>
-                                   <li><a href="categories.do?movie_type=">영화 <span class="arrow_carrot-down"></span></a>
+                                   <li><a href="categories.do">영화 <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="categories.do?movie_type=다큐멘터리">다큐멘터리</a></li>
                                         <li><a href="categories.do?movie_type=드라마">드라마</a></li>

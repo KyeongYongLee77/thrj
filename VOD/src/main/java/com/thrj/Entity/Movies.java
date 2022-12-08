@@ -20,7 +20,7 @@ public class Movies {
 	@NonNull private String movie_img;                 // 영화이미지
 	@NonNull private String movie_type;                // 영화줄거리
 	@NonNull private String movie_open_date;           // 영화개봉날짜           
-	@NonNull private int movie_rating;              // 영화점수
+	@NonNull private int movie_rating;                 // 영화점수
 	@NonNull private String movie_runtime;             // 상영시간
 	@NonNull private String movie_actor;               // 영화 출연배우
 	@NonNull private String movie_country;             // 영화 제작국가
@@ -31,4 +31,5 @@ public class Movies {
 	private int movie_participate;                     // 별점 참여자수
 	private String mb_id;                              // 시청자 아이디
 	private int cmt_seq;                               // 댓글수
+	private String movie_keywords;                     // 유사도 키워드
 }

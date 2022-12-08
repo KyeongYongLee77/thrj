@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
  <a href="animeDetails.do?movie_seq=${movies.movie_seq}">
-<section class="normal-breadcrumb set-bg" data-setbg="${imgUrl}/${movies.movie_img}.png">
+<section class="normal-breadcrumb set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
       <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">

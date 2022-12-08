@@ -110,7 +110,7 @@
 					</div>
 					<input type="hidden" id="flag" name="flag" value="false">
 					<form id="ajaxform" action="${context}/saveFile.do" method="post"
-						enctype="multipart/form-data" role="form">
+						enctype="multipart/form-data" role="form" accept-charset="utf-8">
 						<label class="control-label col-md-2 col-xs-12"></label>
 						<div class="col-md-6">
 							<label for="imageFile">
@@ -129,16 +129,7 @@
 	<%@ include file="./footer.jsp"%>
 
 	<!-- Search model Begin -->
-	<div class="search-model">
-		<div class="h-100 d-flex align-items-center justify-content-center">
-			<div class="search-close-switch">
-				<i class="icon_close"></i>
-			</div>
-			<form class="search-model-form">
-				<input type="text" id="search-input" placeholder="Search here.....">
-			</form>
-		</div>
-	</div>
+	<%@ include file="./search.jsp"%>
 	<!-- Search model end -->
 
 	<!-- Js Plugins -->
@@ -178,13 +169,30 @@
 			$("#ajaxform").ajaxSubmit({
 				type : "POST",
 				dataType : 'text',
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				url : $("#ajaxform").attr("action"),
 				data : $("#ajaxform").serialize(),
 				success : function(data) {
 					data = data.replace(/"/gi, "");
 					var imageUrl = "${context}/resources/memberPhoto/" + data;
-					$("#pic").attr("src", imageUrl);
-					$("#userImage").val(data);
+					
+					if(checkFileName(data) == false ){
+						var ext =  data.split('.').pop().toLowerCase();
+					    if($.inArray(ext, ['bmp' , 'jpg', 'png', 'jpeg', 'gif']) == -1) {
+					 		alert(ext+' 파일은 업로드 하실 수 없습니다.');
+					 		imageUrl="${memberProfile}/memberProfile.jpg";
+							$("#pic").attr("src", imageUrl);
+							$("#userImage").val("memberProfile.jpg");
+					    } else {
+							$("#pic").attr("src", imageUrl);
+							$("#userImage").val(data);
+					    }
+					} else {
+						imageUrl="${memberProfile}/memberProfile.jpg";
+						$("#pic").attr("src", imageUrl);
+						$("#userImage").val("memberProfile.jpg");
+					} 
+					
 				},
 				error : function(xhr, status, error) {
 					alert(error);
@@ -195,6 +203,12 @@
 		function fn_back() {
 			history.back();
 		}
+		
+		function checkFileName(str){
+			var pattern =   /[\{\}\/?,;:|*~`!^\+<>@\#$%&\\\=\'\"]/gi;
+		    return pattern.test(str);
+		}
+		
 	</script>
 
 	<style>

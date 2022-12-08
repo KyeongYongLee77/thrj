@@ -2,10 +2,12 @@ package com.thrj.vod;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,8 +153,9 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping(value="/saveFile.do", method=RequestMethod.POST)
-	@ResponseBody public String saveFile(HttpServletRequest request ) throws IOException {
+	@RequestMapping(value="/saveFile.do", method=RequestMethod.POST,produces = "application/text; charset=UTF-8")
+	@ResponseBody public String saveFile(HttpServletRequest request) throws IOException {
+		//,produces = "application/text; charset=UTF-8" -> 파일이 넘어오면서 charset 인코딩 변환이 되어버려진다.
 		String imgFolder ="\\resources\\memberPhoto\\";
 		String realFolder = request.getRealPath("/")+imgFolder;
 		MultipartHttpServletRequest multipartRequest =  (MultipartHttpServletRequest)request;

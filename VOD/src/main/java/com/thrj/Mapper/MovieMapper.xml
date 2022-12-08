@@ -10,7 +10,7 @@
 	    			movie_seq
 	    		  , movie_title
 	    		  , movie_content
-	    		  , movie_img
+	    		  , replace(replace(movie_img,' ','%20'),'.jpg','') as movie_img
 	    		  , movie_type
 	    		  , movie_open_date
 	    		  , movie_rating
@@ -21,7 +21,8 @@
 	    		  , movie_director
 	    	      , movie_cnt
 	    		  , movie_participate
-	    		from movies where movie_seq = #{movie_seq}
+	    		from movies 
+	    		where movie_seq = #{movie_seq}
 	    	]]>
 	</select>
 
@@ -32,7 +33,7 @@
 	     	m.movie_seq as movie_seq
 	      , m.movie_title as movie_title
 	      , m.movie_content as movie_content
-	      , m.movie_img as movie_img
+	      , replace(replace(m.movie_img,' ','%20'),'.jpg','') as movie_img
 	      , m.movie_type as movie_type
 	      , m.movie_open_date as movie_open_date
 	      , m.movie_rating as movie_rating
@@ -51,7 +52,7 @@
 	     ,m.movie_runtime,m.movie_actor,m.movie_country,m.admin_id
 	     ,m.movie_director,m.movie_cnt,m.movie_participate
 	     order by m.movie_seq desc
-	     limit 3
+	     limit 6
 	     ]]>
 	</select>
 	
@@ -77,7 +78,7 @@
 	     	m.movie_seq as movie_seq
 	      , m.movie_title as movie_title
 	      , m.movie_content as movie_content
-	      , m.movie_img as movie_img
+	      , replace(replace(m.movie_img,' ','%20'),'.jpg','') as movie_img
 	      , m.movie_type as movie_type
 	      , m.movie_open_date as movie_open_date
 	      , m.movie_rating as movie_rating
@@ -102,7 +103,7 @@
 	      movie_seq
 	      , movie_title
 	      , movie_content
-	      , movie_img
+	      , replace(replace(movie_img,' ','%20'),'.jpg','') as movie_img
 	      , movie_type
 	      , movie_open_date
 	      , movie_rating
@@ -113,11 +114,12 @@
 	      , movie_director
 	      , movie_cnt
 	      , movie_participate
+	      , movie_keywords
 	    from movies
 	    where movie_type like concat('%', #{movie_type}, '%')
 	    and movie_seq != #{movie_seq}
 	    order by movie_seq desc
-	    LIMIT 0,4
+	    LIMIT 4
  	   ]]>
 	</select>
 
@@ -128,7 +130,7 @@
 	     	m.movie_seq as movie_seq
 	      , m.movie_title as movie_title
 	      , m.movie_content as movie_content
-	      , m.movie_img as movie_img
+	      , replace(replace(m.movie_img,' ','%20'),'.jpg','') as movie_img
 	      , m.movie_type as movie_type
 	      , m.movie_open_date as movie_open_date
 	      , m.movie_rating as movie_rating
@@ -167,7 +169,7 @@
 	     movie_seq
 	     , movie_title
 	     , movie_content
-	     , movie_img
+	     , replace(replace(movie_img,' ','%20'),'.jpg','') as movie_img
       from movies 
       order by movie_cnt desc
 	  limit 1
@@ -175,12 +177,11 @@
 	</select>
 
 	<!-- 페이징 -->
-	<select id="getTotalRowCount" parameterType="com.thrj.Entity.Paging" resultType="int">
+	<select id="getTotalRowCount" parameterType="string" resultType="int">
 		select count(*) from movies
-	</select>
-	
-	<select id="getTotalRowCount_1" parameterType="string" resultType="int">
-		select count(*) from movies where movie_type like concat('%', #{movie_type}, '%')
+		<if test='movie_type != null'>
+		where movie_type like concat('%', #{movie_type}, '%')
+		</if>
 	</select>
 
 	<select id="getPageList" resultType="com.thrj.Entity.Movies" parameterType="com.thrj.Entity.Paging">
@@ -206,7 +207,7 @@
  				Hs.movie_seq as movie_seq
 				, date_format(Hs.history_date, '%Y-%m-%d') as history_date
 				, Mv.movie_title as movie_title
-				, Mv.movie_img as movie_img
+				, replace(replace(Mv.movie_img,' ','%20'),'.jpg','') as movie_img
 		   FROM history as Hs
 			LEFT JOIN movies as Mv
 			  ON Hs.movie_seq = Mv.movie_seq
@@ -216,7 +217,7 @@
 			</if>
 		<![CDATA[	
 		group by Hs.movie_seq,date_format(Hs.history_date, '%Y-%m-%d'),Mv.movie_title
-		order by date_format(Hs.history_date, '%Y-%m-%d') desc
+		order by date_format(Hs.history_date, '%Y-%m-%d') desc,Hs.movie_seq asc
 		limit 4
 		]]>
 	</select>
@@ -235,5 +236,42 @@
 		 	)
 		]]>
 	</insert>
-
+	
+	<select id="history_test" parameterType="string" resultType="com.thrj.Entity.Movies">
+	    select m.* 
+	    from movies m, history h
+		where m.movie_seq = h.movie_seq 
+		and m.movie_seq in (select movie_seq from history 
+						<if test='mb_id !=null'>
+						 where mb_id=#{mb_id}
+						</if> 
+						 order by history_date desc)
+		order by h.history_date desc 
+		limit 4
+		
+	</select>
+	<delete id="delete_history" parameterType="com.thrj.Entity.Movies">
+	    delete from history
+	    where mb_id=#{mb_id} and movie_seq=#{movie_seq} 
+	</delete>
+	
+	<select id="mb_history_list" parameterType="string" resultType="com.thrj.Entity.History">
+	    select * from history
+	    where mb_id=#{mb_id}
+	</select>
+	
+	<select id="recomVod" resultType="com.thrj.Entity.Movies">
+		<![CDATA[
+		select *
+		from movies
+		where movie_seq in
+		]]>
+	    <foreach collection="array" item="movie_seq_array" open="(" close=")" separator=",">
+        #{movie_seq_array}
+    	</foreach>
+    	order by field(movie_seq,
+  		<foreach collection="array" item="movie_seq_array" open="" close=")" separator=",">
+        #{movie_seq_array}
+    	</foreach>
+	</select>
 </mapper>

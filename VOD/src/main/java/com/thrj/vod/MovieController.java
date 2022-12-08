@@ -2,6 +2,7 @@ package com.thrj.vod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,8 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,9 +27,12 @@ import com.thrj.Entity.Paging;
 import com.thrj.Mapper.CommentsMapper;
 import com.thrj.Mapper.MovieMapper;
 
-
+@CrossOrigin(origins= {"http://127.0.0.1:5000"})
 @Controller
 public class MovieController {
+	
+	//추천영화 시퀀스 배열
+	int[] movie_seq_array;	
 	
 	@Autowired
 	public MovieMapper mapper;
@@ -50,18 +56,22 @@ public class MovieController {
 		return "index";
 	}
 	
-	//상세페이지 사이드바 장르별 리스트 
-
-	@GetMapping(value="/genreList.do")
-	public String genreList(Movies vo, Model model) {
-		/*
-		List<Movies> list_genre = mapper.movieGenreList();
-		model.addAttribute("list_genre",list_genre);
-		
-		return "redirect:/animeDetails.do?movie_seq="+vo.getMovie_seq();
-	 */
-		return null;
-	}
+	//상세페이지 사이드바 유사영화 리스트 (flask 데이터 통신)
+		@PostMapping("/recomVod.do")
+	    public void recomVod(HttpServletRequest request){
+			
+			String statu = request.getParameter("status");
+			
+			String[] str_array = request.getParameterValues("movie_seq[]");
+				
+			movie_seq_array = Stream.of(str_array).mapToInt(Integer::parseInt).toArray();
+	        
+			System.out.println(statu);
+			for (int i = 0; i < movie_seq_array.length; i++) {
+	            System.out.print(movie_seq_array[i]+" ");
+	        }
+			System.out.println("");
+	    }
 	
 	@RequestMapping(value="/animeDetails.do", method=RequestMethod.GET)
 	public ModelAndView animeDetails(HttpServletRequest request) {
@@ -69,7 +79,6 @@ public class MovieController {
 		ModelAndView mv = new ModelAndView();
 		
 		int movieSeq = Integer.parseInt(request.getParameter("movie_seq")) ;//게시물 번호 int형으로 변환
-		String movieType = request.getParameter("movie_type");
 		
 		mapper.raiseLookupCount(movieSeq); //영화 게시물 view수
 		Movies movie=mapper.animeDetails(movieSeq); //내용 시나리오
@@ -79,7 +88,7 @@ public class MovieController {
 	    HttpSession session = request.getSession();
 		String mb_id=(String)session.getAttribute("mb_id");
 		
-		if(mb_id!=null && !"".contentEquals(mb_id)) {
+		if(mb_id!=null && !"".equals(mb_id)) {
 			Movies vo =new Movies();
 			vo.setMovie_seq(movieSeq);
 			vo.setMb_id(mb_id);
@@ -87,6 +96,10 @@ public class MovieController {
 		}
 	    
 		List<Movies> list_genre = mapper.movieGenreList(movie);
+		
+		// 유사영화(flask 데이터 통신)
+       // List<Movies> recom_vod = mapper.recomVod(movie_seq_array);
+        //mv.addObject("recom_vod", recom_vod);
 		
 		mv.addObject("list_genre",list_genre);
 		mv.addObject("CommentList",list);
@@ -126,22 +139,17 @@ public class MovieController {
 	@GetMapping("/categories.do")
 	public String categories(Model model, @ModelAttribute("paging")Paging paging, HttpServletRequest request, Movies movie) {
 		
-		int totalRowCount = mapper.getTotalRowCount(paging);
+		String movieType = request.getParameter("movie_type");
+		int totalRowCount = mapper.getTotalRowCount(movieType);
 		paging.setTotalRowCount(totalRowCount);
+		
 		paging.pageSetting();
 		
-		String movieType = request.getParameter("movie_type");
-		int totalRowCount_category = mapper.getTotalRowCount_1(movieType);
-		paging.setTotalRowCount_1(totalRowCount_category);
-		paging.pageSetting_1();
-		
-		List<Paging> getPageList = mapper.getPageList(paging);
 		model.addAttribute("Paging", paging);
 		
 		List<Movies> list = mapper.categorieList();
 		model.addAttribute("list",list);
 		
-//		String movieType = request.getParameter("movie_type");
 		List<Movies> movie_type_list = mapper.movie_typeList(movieType);
 		List<Movies> typeList = new ArrayList<Movies>();
 		
@@ -155,6 +163,9 @@ public class MovieController {
 		String mb_id=(String)session.getAttribute("mb_id");
 		List<Movies> history_seq = mapper.historySeq(mb_id);
 		model.addAttribute("history_seq",history_seq);
+		
+		List<Movies> history_test = mapper.history_test(mb_id);
+		model.addAttribute("history_test",history_test);
 		
 		return "categories";
 	}
