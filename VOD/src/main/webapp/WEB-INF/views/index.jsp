@@ -113,7 +113,7 @@
 	                      	<a onclick="seqClick(${movies.movie_seq})" href="#Redirect">
 		                        <div class="product__sidebar__view__item set-bg" data-setbg="${imgUrl}/${movies.movie_img}.jpg">
 			                        <div class="view"><!-- <i class="fa fa-eye"> </i> 9141--></div>
-			                        <h5>${movies.movie_title}</h5>
+			                        <h5 class="movie_gotitle">${movies.movie_title}</h5>
 		                        </div>
 		                     </a>   
 	                        </div>
@@ -176,9 +176,20 @@
 	}
 	
 </script>
+<style>
+.movie_gotitle {
+	color: #4641D9;
+	font-weight: 700;
+	line-height: 26px;
+}
 
-
-
+a:hover,
+a:focus {
+	text-decoration: none;
+	outline: none;
+	color: #4641D9;
+}
+</style>
 </body>
 
 </html>
