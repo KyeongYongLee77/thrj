@@ -95,10 +95,10 @@ VOD 줄거리에서 상위 메타데이터를 추출하고 메타데이터와 �
     <td align="center"><strong>백종화</strong></td>
   </tr>
   <tr>
-    <td align="center"><b>PM</b><br>python 개발<br>팀장<br/>개발총괄</td>
+    <td align="center">python 개발<br/>팀장<br/>개발총괄</td>
     <td align="center"><b>UI/UX, Front-end</b><br>와이어프레임 제작</td>
     <td align="center"><b>UI/UX, Front-end</b><br>리스트 페이지 구현</td>
-    <td align="center"><b>Back-end, Front-end</b><br>개발환경 구축<br>API 연동,회원가입/로그인,인덱스,상세페이지,검색페이지 개발</td>
+    <td align="center"><b>Back-end, Front-end</b><br>개발환경 구축<br>API 연동<br/>회원가입/로그인<br/>인덱스<br/>상세페이지<br/>검색페이지 개발</td>
     <td align="center"><b>업무보조</b><br>문서작성</td>
   </tr>
   <tr>
