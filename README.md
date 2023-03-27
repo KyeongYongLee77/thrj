@@ -136,3 +136,5 @@ https://www.toptal.com/developers/gitignore
 
 Eclipse/Python
 ```
+
+###  ( * ) 해당 프로젝트는 모국비에서 2021년도에 문서 및 소스는를 클론한 프로젝트입니다.
